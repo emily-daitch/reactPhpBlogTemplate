@@ -48,123 +48,9 @@ export default function Main() {
 
     const fetchPosts = async (pageSize, offset) => {
         const res = await fetch(
-            `http://localhost/reactPhp/api/posts?limit=${pageSize}&offset=${offset}`,
-            {
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                }
-            }
+            `https://emilydaitch.click/dbconn.php`
         );
-        console.log('offset', offset);
-        // const res = offset === 0 ? {
-        //     //body: {
-        //         posts: [
-        //             {
-        //                 id: "1",
-        //                 user_id: "1",
-        //                 title: "title1",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "2",
-        //                 user_id: "1",
-        //                 title: "title2",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "3",
-        //                 user_id: "1",
-        //                 title: "title3",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "4",
-        //                 user_id: "2",
-        //                 title: "title4",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "5",
-        //                 user_id: "2",
-        //                 title: "title5",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "6",
-        //                 user_id: "3",
-        //                 title: "title6",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "7",
-        //                 user_id: "1",
-        //                 title: "title7",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "8",
-        //                 user_id: "1",
-        //                 title: "title8",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "9",
-        //                 user_id: "1",
-        //                 title: "title9",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "10",
-        //                 user_id: "1",
-        //                 title: "title10",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "11",
-        //                 user_id: "1",
-        //                 title: "title11",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             },
-        //             {
-        //                 id: "12",
-        //                 user_id: "1",
-        //                 title: "title12",
-        //                 content: "this is good content",
-        //                 image: "https:\/\/via.placeholder.com\/600\/771796"
-        //             }
-        //         ],
-        //         count: 12
-        //     //}
-        // } : {
-        //     posts: [
-        //         {
-        //             id: "1",
-        //             user_id: "1",
-        //             title: "title1",
-        //             content: "this is good content",
-        //             image: "https:\/\/via.placeholder.com\/600\/771796"
-        //         },
-        //         {
-        //             id: "2",
-        //             user_id: "1",
-        //             title: "title2",
-        //             content: "this is good content",
-        //             image: "https:\/\/via.placeholder.com\/600\/771796"
-        //         }
-        //     ],
-        //     count: 12
-        // };
+        console.log('res', res);
         
         const data = await res.json();
         console.log('data', data);
@@ -187,8 +73,8 @@ export default function Main() {
             activeStyles={activeStyles}
             normalStyles={normalStyles}>
             <Grid templateColumns='repeat(4, 1fr)' gap={6}>
-                {posts.map(function(id, title, content, user_id, image){
-                    return <PostList key={id} id={id} title={title} content={content} userId={user_id}
+                {posts.map(function({id, title, content, image}){
+                    return <PostList key={id} id={id} title={title} content={content}
                         image={image}/>
                 })}
             <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
