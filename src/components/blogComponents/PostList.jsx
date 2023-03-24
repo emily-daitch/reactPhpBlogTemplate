@@ -2,10 +2,8 @@ import React from 'react';
 import { Box, Badge } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 
-export default function PostList(id, title, content, image, userId) {
+export default function PostList({id, title, content, image}) {
 
-    title = 'title1';
-    image = 'https://via.placeholder.com/600/771796';
     function slug(string) {
         return string.toLowerCase()
         .replace(/ /g, '-')
@@ -23,18 +21,6 @@ export default function PostList(id, title, content, image, userId) {
                         as='h4'
                         lineWeight='tight'>
                         {title}
-                    </Box>
-                    <hr/>
-                    <Box display='flex' alignItems='baseline'>
-                        <Badge borderRadius='full' px='2'>
-                            User:
-                        </Badge>
-                        <Box color='grey.500'
-                            fontWeight='semibold'
-                            fontSize='xs'
-                            ml='2'>
-                                {userId}
-                        </Box>
                     </Box>
                 </Box>
             </Link>
