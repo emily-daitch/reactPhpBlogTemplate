@@ -3,8 +3,7 @@ import { Paginator, Container, PageGroup, usePaginator } from "chakra-paginator"
 import PostList from "./blogComponents/PostList";
 import { Grid } from '@chakra-ui/react';
 
-export default function Main() {
-
+export default function Main({theme}) {
     const [postsTotal, setPostsTotal] = useState(undefined);
     const [posts, setPosts] = useState([]);
 
@@ -50,10 +49,8 @@ export default function Main() {
         const res = await fetch(
             `https://emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
         );
-        console.log('res', res);
         
         const data = await res.json();
-        console.log('data', data);
         return data;
     };
 
@@ -75,7 +72,7 @@ export default function Main() {
             <Grid templateColumns='repeat(4, 1fr)' gap={6}>
                 {posts.map(function({id, title, content, image}){
                     return <PostList key={id} id={id} title={title} content={content}
-                        image={image}/>
+                        image={image} theme={theme}/>
                 })}
             </Grid>
             <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
