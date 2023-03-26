@@ -5,6 +5,7 @@ import './App.css';
 //import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import Main from './components/Main';
 import Contact from './components/Pages/Contact';
+import Resume from './components/Pages/Resume';
 import { lightTheme, darkTheme, GlobalStyles } from './theme';
 import { ThemeProvider } from "styled-components"
 import { 
@@ -37,6 +38,7 @@ import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons'
 
 function App() {
   const [theme, setTheme] = useState("light");
+  const [storedTheme, setStoredTheme] = useLocalStorage("theme", "dark");
   const [searchTerm, setSearchTerm] = useState([]);
   const [searchResultItems, setSearchResultItems] = useState([]);
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -44,33 +46,17 @@ function App() {
   const initialRef = React.useRef();
 
   const fetchSearchResults = async (searchTerm) => {
-    console.log('searchTerm from fetch', searchTerm);
     const res = await fetch(
       `http://emilydaitch.click/searchResults.php?keyword=${searchTerm}`
     );
 
-    console.log('res', res);
         
     const data = await res.json();
-    console.log('data', data);
     return data;
-    // return {
-    //   posts: [
-    //     {
-    //       id: 1,
-    //       title: 'testResult1'
-    //     },
-    //     {
-    //       id: 2,
-    //       title: 'testResult2'
-    //     }
-    //   ]
-    // };
   }
 
   useEffect(() => {
     const getUsersInput = setTimeout(() => {
-      console.log('searchTerm from useEffect', searchTerm);
       fetchSearchResults(searchTerm).then((item) => {
         setSearchResultItems(item.posts)
       })
@@ -79,13 +65,52 @@ function App() {
     return () =>clearTimeout(getUsersInput);
   }, [searchTerm])
 
+  // Hook
+function useLocalStorage(key, initialValue) {
+  // State to store our value
+  // Pass initial state function to useState so logic is only executed once
+  const [storedValue, setStoredValue] = useState(() => {
+    if (typeof window === "undefined") {
+      return initialValue;
+    }
+    try {
+      // Get from local storage by key
+      const item = window.localStorage.getItem(key);
+      // Parse stored json or if none return initialValue
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      // If error also return initialValue
+      console.log(error);
+      return initialValue;
+    }
+  });
+  // Return a wrapped version of useState's setter function that ...
+  // ... persists the new value to localStorage.
+  const setValue = (value) => {
+    try {
+      // Allow value to be a function so we have same API as useState
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
+      // Save state
+      setStoredValue(valueToStore);
+      // Save to local storage
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      }
+    } catch (error) {
+      // A more advanced implementation would handle the error case
+      console.log(error);
+    }
+  };
+  return [storedValue, setValue];
+}
+
   const changeThemeSwitch = () => {
     let newValue = null;
     newValue = !isSwitchOn;
     setIsSwitchOn(newValue);
-    console.log(newValue);
 
-    !newValue ? setTheme('dark') : setTheme('light');
+    !newValue ? setStoredTheme('dark') : setStoredTheme('light');
   }
 
   function slug(string) {
@@ -113,13 +138,13 @@ function App() {
           </VStack>
         </Grid>
       </Box> */}
-      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <ThemeProvider theme={storedTheme === 'light' ? lightTheme : darkTheme}>
         <BrowserRouter>
           <GlobalStyles/>
           <Box  p={4} 
-                bg={ theme === 'light' ? '#333' : '#fff'}
-                borderButton={ theme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
-                color={ theme === 'light' ? '#fff' : '#333'}>
+                bg={ storedTheme === 'light' ? '#333' : '#fff'}
+                borderButton={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
+                color={ storedTheme === 'light' ? '#fff' : '#333'}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
               <HStack spacing={16} alignItems={'left'}>
                 <HStack as={'nav'}
@@ -130,6 +155,9 @@ function App() {
                           </Link>
                           <Link to="/contact">
                             Contact
+                          </Link>
+                          <Link to="/resume">
+                            Resume
                           </Link>
                 </HStack>
                 </HStack>
@@ -158,7 +186,7 @@ function App() {
                 backgroundInvert='80%'
                 backdropBlur='2px'>
                   <ModalContent>
-                  <ModalHeader color={theme === 'light' ? '#333' : '#fff'}
+                  <ModalHeader color={storedTheme === 'light' ? '#333' : '#fff'}
                   >
                     Type keyword to search
                   </ModalHeader>
@@ -174,7 +202,6 @@ function App() {
                     {searchResultItems && 
                       <UnorderedList>
                         {searchResultItems.map(function(item){
-                          console.log('item from search map', item);
                           return (<Link to={slug(item.title)} key={item.id} state={item.id}>
                             <ListItem key={item.id}>
                               {item.title}
@@ -196,8 +223,9 @@ function App() {
           <div className='App'>
             <Container maxW="1200px" marginTop={'50px'}>
               <Routes>
-              <Route path="/" element={<Main />}/>
-              <Route path="/contact" element={<Contact />}/>
+              <Route path="/" element={<Main theme={storedTheme}/>}/>
+              <Route path="/contact" element={<Contact theme={storedTheme}/>}/>
+              <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
               <Route path=":slug" element={<SinglePost/>}/>
               <Route path="/404" element={<NotFound/>}/>
               </Routes>
