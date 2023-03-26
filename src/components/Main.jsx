@@ -48,7 +48,7 @@ export default function Main() {
 
     const fetchPosts = async (pageSize, offset) => {
         const res = await fetch(
-            `https://emilydaitch.click/dbconn.php`
+            `https://emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
         );
         console.log('res', res);
         
@@ -77,10 +77,10 @@ export default function Main() {
                     return <PostList key={id} id={id} title={title} content={content}
                         image={image}/>
                 })}
+            </Grid>
             <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
                 <PageGroup isInline align="center"/>
             </Container>
-            </Grid>
         </Paginator>
     )
 }
