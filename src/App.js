@@ -44,34 +44,33 @@ function App() {
   const initialRef = React.useRef();
 
   const fetchSearchResults = async (searchTerm) => {
-    // const res = await fetch(
-    //   `http://localhost/reactPhp/api/searchResult?keyword=${searchTerm}`,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       "Access-Control-Allow-Origin" : "*",
-    //       "Content-Type": "application/json"
-    //     }
-    //   }
-    // );
+    console.log('searchTerm from fetch', searchTerm);
+    const res = await fetch(
+      `http://emilydaitch.click/searchResults.php?keyword=${searchTerm}`
+    );
 
-    // return await res.json();
-    return {
-      posts: [
-        {
-          id: 1,
-          title: 'testResult1'
-        },
-        {
-          id: 2,
-          title: 'testResult2'
-        }
-      ]
-    };
+    console.log('res', res);
+        
+    const data = await res.json();
+    console.log('data', data);
+    return data;
+    // return {
+    //   posts: [
+    //     {
+    //       id: 1,
+    //       title: 'testResult1'
+    //     },
+    //     {
+    //       id: 2,
+    //       title: 'testResult2'
+    //     }
+    //   ]
+    // };
   }
 
   useEffect(() => {
     const getUsersInput = setTimeout(() => {
+      console.log('searchTerm from useEffect', searchTerm);
       fetchSearchResults(searchTerm).then((item) => {
         setSearchResultItems(item.posts)
       })
@@ -175,6 +174,7 @@ function App() {
                     {searchResultItems && 
                       <UnorderedList>
                         {searchResultItems.map(function(item){
+                          console.log('item from search map', item);
                           return (<Link to={slug(item.title)} key={item.id} state={item.id}>
                             <ListItem key={item.id}>
                               {item.title}
