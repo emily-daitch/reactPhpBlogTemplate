@@ -9,21 +9,15 @@ export default function SinglePost() {
     const [postData, setCurrentPost] = useState(null);
 
     const fetchCurrentPost = async (id) => {
-    //     const res = await fetch(
-    //         `http://localhost/reactPhp/api/getCurrentTopic?id=${id}`,
-    //         {
-    //             headers: {
-    //                 "Access-Control-Allow-Origin": "*",
-    //                 "Content-Type": "application/json"
-    //             }
-    //         }
-    //     )
+        const res = await fetch(
+            `http://emilydaitch.click/getCurrentTopic.php?id=${id}`
+        )
 
-    //     return await res.json();
-    return {
-        image: 'test',
-        title: 'testTitleSingle'
-    };
+        return await res.json();
+    // return {
+    //     image: 'test',
+    //     title: 'testTitleSingle'
+    // };
     }
 
     useState(()=> {
