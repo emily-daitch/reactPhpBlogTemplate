@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import SinglePost from './components/blogComponents/SinglePost';
 import NotFound from './components/blogComponents/NotFound';
 import './App.css';
-//import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import Main from './components/Main';
 import Contact from './components/Pages/Contact';
 import Resume from './components/Pages/Resume';
@@ -11,9 +9,6 @@ import { ThemeProvider } from "styled-components"
 import { 
   ChakraProvider, 
   Box, 
-  Grid, 
-  VStack, 
-  Text, 
   ListItem,
   UnorderedList,
   HStack,
@@ -37,13 +32,17 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons'
 
 function App() {
-  const [theme, setTheme] = useState("light");
   const [storedTheme, setStoredTheme] = useLocalStorage("theme", "dark");
   const [searchTerm, setSearchTerm] = useState([]);
   const [searchResultItems, setSearchResultItems] = useState([]);
-  const [isSwitchOn, setIsSwitchOn] = useState(true);
+  const [isSwitchOn, setIsSwitchOn] = useState(storedTheme === 'dark' ? true : false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = React.useRef();
+
+  const onCloseClear = () => {
+    onClose();
+    setSearchResultItems([]);
+  }
 
   const fetchSearchResults = async (searchTerm) => {
     const res = await fetch(
@@ -106,11 +105,17 @@ function useLocalStorage(key, initialValue) {
 }
 
   const changeThemeSwitch = () => {
+    console.log('change theme switch');
     let newValue = null;
     newValue = !isSwitchOn;
+    console.log('before setting switch, it was', isSwitchOn);
+    console.log('setting switch to', newValue);
     setIsSwitchOn(newValue);
+    console.log('after setting switch, it is', isSwitchOn);
 
-    !newValue ? setStoredTheme('dark') : setStoredTheme('light');
+    !isSwitchOn ? setStoredTheme('dark') : setStoredTheme('light');
+    console.log('before setting stored theme, isSwitchOn is (not)', !isSwitchOn);
+    console.log('set stored theme to', !isSwitchOn ? 'dark' : 'light');
   }
 
   function slug(string) {
@@ -121,23 +126,6 @@ function useLocalStorage(key, initialValue) {
 
   return (
     <ChakraProvider>
-      {/* <Box textAlign="center" fontSize="xl">
-        <Grid minH="100vh" p={3}>
-          <ColorModeSwitcher justifySelf="flex-end"/>
-          <VStack spacing={8}>
-            <Text>
-              some content
-            </Text>
-            <Link color="teal.500"
-                  href="https://google.com"
-                  fontSize="2xl"
-                  target="_blank"
-                  >
-              Explore More
-            </Link>
-          </VStack>
-        </Grid>
-      </Box> */}
       <ThemeProvider theme={storedTheme === 'light' ? lightTheme : darkTheme}>
         <BrowserRouter>
           <GlobalStyles/>
@@ -167,7 +155,7 @@ function useLocalStorage(key, initialValue) {
                 <Flex alignItems={'center'}>
                   <Spacer></Spacer>
                   <Stack direction={'row'} spacing={7}>
-                    <Switch onChange={changeThemeSwitch}>
+                    <Switch isChecked={isSwitchOn} onChange={changeThemeSwitch}>
                       {isSwitchOn ? (<MoonIcon mr="5"></MoonIcon>) : (<SunIcon mr="5"></SunIcon>)}
                     </Switch>
                   </Stack>
@@ -177,24 +165,24 @@ function useLocalStorage(key, initialValue) {
 
           <Modal initialFocusRef={initialRef}
             isCentered
-            onClose={onClose}
+            onClose={onCloseClear}
             isOpen={isOpen}
             motionPreset='slideInBottom'
             bg='blue'>
-              <ModalOverlay bg='none'
+              <ModalOverlay 
                 backgroundFilter='auto'
                 backgroundInvert='80%'
                 backdropBlur='2px'>
                   <ModalContent>
-                  <ModalHeader color={storedTheme === 'light' ? '#333' : '#fff'}
+                  <ModalHeader color={storedTheme === 'light' ? '#333' : '#fff'} bg={storedTheme === 'light' ? '#fff' : '#333'}
                   >
                     Type keyword to search
                   </ModalHeader>
-                  <ModalBody pb={6}>
+                  <ModalBody  bg={storedTheme === 'light' ? '#fff' : '#333'} pb={6}>
                     <FormControl mt={4}>
                       <Input placeHolder=''
                         ref={initialRef}
-                        color={'#333'}
+                        color={storedTheme === 'light' ? '#333' : '#fff'}
                         onChange={(e)=> setSearchTerm(e.target.value)}
                       />
                     </FormControl>
@@ -203,7 +191,8 @@ function useLocalStorage(key, initialValue) {
                       <UnorderedList>
                         {searchResultItems.map(function(item){
                           return (<Link to={slug(item.title)} key={item.id} state={item.id}>
-                            <ListItem key={item.id}>
+                            <ListItem color={storedTheme === 'light' ? '#333' : '#fff'}
+                            bg={storedTheme === 'light' ? '#fff' : '#333'} key={item.id}>
                               {item.title}
                             </ListItem>
                           </Link>)
@@ -211,8 +200,9 @@ function useLocalStorage(key, initialValue) {
                       </UnorderedList>
                     }
                   </ModalBody>
-                  <ModalFooter>
-                    <Button onCLick={onClose}>
+                  <ModalFooter  bg={storedTheme === 'light' ? '#fff' : '#333'}>
+                    <Button bg={storedTheme === 'light' ? '#333' : '#fff'}
+                    color={storedTheme === 'light' ? '#fff' : '#333'} onClick={onCloseClear}>
                       Cancel
                     </Button>
                   </ModalFooter>
@@ -226,7 +216,7 @@ function useLocalStorage(key, initialValue) {
               <Route path="/" element={<Main theme={storedTheme}/>}/>
               <Route path="/contact" element={<Contact theme={storedTheme}/>}/>
               <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
-              <Route path=":slug" element={<SinglePost/>}/>
+              <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
               <Route path="/404" element={<NotFound/>}/>
               </Routes>
             </Container>
