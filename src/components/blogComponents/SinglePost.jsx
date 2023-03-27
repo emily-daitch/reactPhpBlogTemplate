@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from "react-router-dom";
 import { Container, Heading } from '@chakra-ui/react'
 
-export default function SinglePost() {
+export default function SinglePost({theme}) {
 
     const location = useLocation();
     const [postDataId, setPostData] = useState({});
     const [postData, setCurrentPost] = useState(null);
+    const color = theme === 'light' ? {color:'#333'} : {color:'#fff'};
 
     const fetchCurrentPost = async (id) => {
         const res = await fetch(
@@ -14,10 +15,6 @@ export default function SinglePost() {
         )
 
         return await res.json();
-    // return {
-    //     image: 'test',
-    //     title: 'testTitleSingle'
-    // };
     }
 
     useState(()=> {
@@ -36,19 +33,21 @@ export default function SinglePost() {
 
     return (
         <>
-            {postData != null && <Container maxW='1200px' marginTop={'50px'}>
+            {postData != null && <Container maxW='1200px' marginTop={'50px'} style={color}>
                 <Heading
                     size='lg'
                     textAlign='center'
-                    color='grey.700'
+                    color={theme === 'light' ? '#333' : '#fff'}
                 >
                     {postData.title}
+                    <br/>
+                    <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
+                        <img src={postData.image} width='300px' height='100px' alt='altTest'/>
+                    </div>
                 </Heading>
-                <img src={postData.image} width='300px' height='100px' alt='altTest'/>
                 <br/>
-                <hr/>
                 <br/>
-                <p>
+                <p color={theme === 'light' ? '#333' : '#fff'}>
                     {postData.content}
                 </p>
                 </Container>
