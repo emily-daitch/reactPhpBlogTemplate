@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Paginator, Container, PageGroup, usePaginator } from "chakra-paginator";
 import PostList from "./blogComponents/PostList";
-import { Grid } from '@chakra-ui/react';
+import { Grid, Link } from '@chakra-ui/react';
 
 export default function Main({theme}) {
     const [postsTotal, setPostsTotal] = useState(undefined);
@@ -16,7 +16,7 @@ export default function Main({theme}) {
     } = usePaginator({
         total: postsTotal,
         initialState: {
-            pageSize: 10,
+            pageSize: 8,
             isDisabled: false,
             currentPage: 1
         }
@@ -29,7 +29,7 @@ export default function Main({theme}) {
         color: '#fff',
         fontSize: 'lg',
         _hover: {
-            bg: 'red',
+            bg: '#aaa',
             color: '#fff',
         }
     }
@@ -37,11 +37,11 @@ export default function Main({theme}) {
     const activeStyles = {
         w:10,
         h:10,
-        bg: "green",
+        bg: '#444',
         color: '#fff',
         fontSize: 'lg',
         _hover: {
-            bg: 'blue',
+            bg: '#aaa',
         }
     }
 
@@ -62,7 +62,18 @@ export default function Main({theme}) {
         });
     }, [currentPage, pageSize, offset])
 
+    const color = theme === 'dark' ? {
+        color: '#fff'
+    } : {
+        color: '#333'
+    }
+
     return (
+        <>
+        <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>YouTube tuorial</Link> by&ensp;
+        <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. It is hosted on an Apache server with Hostinger.</p>
+        <p style={color}>For the moment, this is best viewed in Chrome and mobile is not supported, but is in the works!</p>
+        <p style={color}>See my main portfolio site <Link href='https://emilydaitch.me' color='teal.500'>here</Link>.</p>
         <Paginator
             pagesQuantity={pagesQuantity}
             currentPage={currentPage}
@@ -79,5 +90,6 @@ export default function Main({theme}) {
                 <PageGroup isInline align="center"/>
             </Container>
         </Paginator>
+        </>
     )
 }
