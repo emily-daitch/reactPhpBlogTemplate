@@ -1,20 +1,30 @@
 <?php
 
 namespace services;
+include '../../../sharkweek.php'; // Lives outside repo / webroot
 
 use mysqli;
 
 class DB
 {
-    public $db_host = 'localhost';
-    public $db_user = 'root';
-    public $db_password = '';
-    public $db_database = 'react_php';
+    // For local development
+    //     public $servername = 'localhost';
+    //     public $username = 'root';
+    //     public $password = '';
+    //     public $database = 'react_php';
+    
+    // Create connection
+    $conn = mysqli_connect($servername, $username, $password, $database);
+    unset($servername, $username, $password, $database);
 
     public function database()
     {
         // Making connection
-        $conn = new mysqli($this->db_host, $this->db_user, $this->db_password, $this->db_database);
+        // local development:
+            //$conn = new mysqli($this->servername, $this->username, $this->password, $this->database);
+        $conn = mysqli_connect($servername, $username, $password, $database);
+        unset($servername, $username, $password, $database);
+        
         // Checking connection
         if($conn->connect_error)
         {
