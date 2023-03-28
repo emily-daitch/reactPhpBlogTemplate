@@ -14,7 +14,8 @@ export default function PostList({id, title, content, image, theme}) {
             <Link to={slug(title)} state={id}>
                 <img src={image} alt={title}/>
                 <Box p={6}>
-                    <Box slug={title}
+                    <Box 
+                        slug={title}
                         mt='1'
                         fontWeight='semibold'
                         color={theme === 'light' ? '#333' : '#fff'}
