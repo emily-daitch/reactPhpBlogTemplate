@@ -7,7 +7,9 @@ export default function SinglePost({theme}) {
     const location = useLocation();
     const [postDataId, setPostData] = useState({});
     const [postData, setCurrentPost] = useState(null);
-    const color = theme === 'light' ? {color:'#333'} : {color:'#fff'};
+    const isLightTheme = theme === 'light';
+    const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
+    const color = isLightTheme ? '#333' : '#fff';
 
     const fetchCurrentPost = async (id) => {
         const res = await fetch(
@@ -33,23 +35,24 @@ export default function SinglePost({theme}) {
 
     return (
         <>
-            {postData != null && <Container maxW='1200px' marginTop={'50px'} style={color}>
-                <Heading
-                    size='lg'
-                    textAlign='center'
-                    color={theme === 'light' ? '#333' : '#fff'}
-                >
-                    {postData.title}
+            {postData != null && 
+                <Container maxW='1200px' marginTop={'50px'} style={styleColor}>
+                    <Heading
+                        size='lg'
+                        textAlign='center'
+                        color={color}
+                    >
+                        {postData.title}
+                        <br/>
+                        <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
+                            <img src={postData.image} width='300px' height='100px' alt='altTest'/>
+                        </div>
+                    </Heading>
                     <br/>
-                    <div style={{display: 'flex', justifyContent:'center', alignItems:'center'}}>
-                        <img src={postData.image} width='300px' height='100px' alt='altTest'/>
-                    </div>
-                </Heading>
-                <br/>
-                <br/>
-                <p color={theme === 'light' ? '#333' : '#fff'}>
-                    {postData.content}
-                </p>
+                    <br/>
+                    <p color={color}>
+                        {postData.content}
+                    </p>
                 </Container>
             }
         </>
