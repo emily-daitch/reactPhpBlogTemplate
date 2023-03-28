@@ -6,27 +6,10 @@ import Contact from './components/Pages/Contact';
 import Resume from './components/Pages/Resume';
 import { lightTheme, darkTheme, GlobalStyles } from './theme';
 import { ThemeProvider } from "styled-components"
-import { 
-  ChakraProvider, 
-  Box, 
-  ListItem,
-  UnorderedList,
-  HStack,
-  Spacer,
-  Stack,
-  Switch,
-  Container,
-  useDisclosure,
-  Button,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalOverlay,
-  ModalBody,
-  FormControl,
-  Input,
-  Flex } from "@chakra-ui/react";
+import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
+  Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
+  ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
+  Input, Flex } from "@chakra-ui/react";
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons'
@@ -105,17 +88,12 @@ function useLocalStorage(key, initialValue) {
 }
 
   const changeThemeSwitch = () => {
-    console.log('change theme switch');
     let newValue = null;
     newValue = !isSwitchOn;
-    console.log('before setting switch, it was', isSwitchOn);
-    console.log('setting switch to', newValue);
+
     setIsSwitchOn(newValue);
-    console.log('after setting switch, it is', isSwitchOn);
 
     !isSwitchOn ? setStoredTheme('dark') : setStoredTheme('light');
-    console.log('before setting stored theme, isSwitchOn is (not)', !isSwitchOn);
-    console.log('set stored theme to', !isSwitchOn ? 'dark' : 'light');
   }
 
   function slug(string) {
