@@ -27,9 +27,13 @@ function App() {
     setSearchResultItems([]);
   }
 
+  const env = process.env.STAGE;
+  const env2 = process.env.REACT_APP_STAGE;
+  console.log('env', env, 'env2', env2);
+
   const fetchSearchResults = async (searchTerm) => {
     const res = await fetch(
-      `https://staging.emilydaitch.click/searchResults.php?keyword=${searchTerm}`
+      `https://${env2}.emilydaitch.click/searchResults.php?keyword=${searchTerm}`
     );
 
         

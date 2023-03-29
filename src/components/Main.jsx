@@ -45,9 +45,11 @@ export default function Main({theme}) {
         }
     }
 
+    const env = process.env.REACT_APP_STAGE;
+
     const fetchPosts = async (pageSize, offset) => {
         const res = await fetch(
-            `https://staging.emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
+            `https://${env}.emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
         );
         
         const data = await res.json();
