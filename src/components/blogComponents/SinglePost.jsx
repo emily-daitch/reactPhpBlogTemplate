@@ -13,7 +13,7 @@ export default function SinglePost({theme}) {
 
     const fetchCurrentPost = async (id) => {
         const res = await fetch(
-            `http://emilydaitch.click/getCurrentTopic.php?id=${id}`
+            `https://emilydaitch.click/getCurrentTopic.php?id=${id}`
         )
 
         return await res.json();
