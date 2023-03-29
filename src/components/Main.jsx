@@ -47,7 +47,7 @@ export default function Main({theme}) {
 
     const fetchPosts = async (pageSize, offset) => {
         const res = await fetch(
-            `https://emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
+            `https://staging.emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
         );
         
         const data = await res.json();

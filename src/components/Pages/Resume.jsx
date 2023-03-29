@@ -7,7 +7,7 @@ export default function Resume({theme}) {
     const color = isLightTheme ? '#333' : '#fff';
     return (
         <div style={styleColor}><p>Resume</p>
-            <br/><Link color={color} to='https://www.emilydaitch.click/DaitchResume2023.pdf'>
+            <br/><Link color={color} to='https://www.staging.emilydaitch.click/DaitchResume2023.pdf'>
                 <p color={color}>View/Download my Resume</p>
             </Link>
         </div>
