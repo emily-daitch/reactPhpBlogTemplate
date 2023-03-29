@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Badge } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 
 export default function PostList({id, title, content, image, theme}) {
