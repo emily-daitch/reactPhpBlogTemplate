@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { Container, Heading } from '@chakra-ui/react'
 
@@ -11,9 +11,11 @@ export default function SinglePost({theme}) {
     const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
     const color = isLightTheme ? '#333' : '#fff';
 
+    const env = process.env.REACT_APP_STAGE;
+
     const fetchCurrentPost = async (id) => {
         const res = await fetch(
-            `https://emilydaitch.click/getCurrentTopic.php?id=${id}`
+            `https://${env}.emilydaitch.click/getCurrentTopic.php?id=${id}`
         )
 
         return await res.json();
