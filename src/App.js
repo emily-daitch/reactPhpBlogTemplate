@@ -31,7 +31,7 @@ function App() {
 
   const fetchSearchResults = async (searchTerm) => {
     const res = await fetch(
-      `https://${env}.emilydaitch.click/searchResults.php?keyword=${searchTerm}`
+      `https://${env}emilydaitch.click/searchResults.php?keyword=${searchTerm}`
     );
 
         
