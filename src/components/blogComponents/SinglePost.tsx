@@ -27,7 +27,7 @@ export default function SinglePost({theme}: Props) {
 
     const fetchCurrentPost = async (id: string) => {
         const res = await fetch(
-            `https://${env}emilydaitch.click/getCurrentTopic.php?id=${id}`
+            `https://${env}emilydaitch.click/api/getCurrentTopic?id=${id}`
         )
 
         return await res.json();

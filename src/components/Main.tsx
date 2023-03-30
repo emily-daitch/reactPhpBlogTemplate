@@ -66,12 +66,13 @@ export default function Main({theme}: Props) {
 
     const env = process.env.REACT_APP_STAGE;
 
-    useEffect(() => {
+    useEffect(() => {        
         const fetchPosts = async (pageSize: string, offset: string) => {
             console.log('fetching with pageSize', pageSize, 'and offset', offset)
             const res = await fetch(
-                `https://${env}emilydaitch.click/dbconn.php?limit=${pageSize}&offset=${offset}`
+                `https://${env}emilydaitch.click/api/posts?limit=${pageSize}&offset=${offset}`
             );
+            console.log('res', res);
             
             const data = await res.json();
             return data;
