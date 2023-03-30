@@ -4,5 +4,6 @@
 [ ] cleanup un-needed files from create-react-app<br>
 [x] implement Strava api connection<br>
 [ ] make graphs to visualize Strava data<br>
+[ ] write some tests<br>
 
 Non-repo:
