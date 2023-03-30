@@ -3,6 +3,7 @@ import NotFound from './components/blogComponents/NotFound';
 import './App.css';
 import Main from './components/Main';
 import Contact from './components/Pages/Contact';
+import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
   Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
@@ -199,6 +200,7 @@ function useLocalStorage(key: string, initialValue: string) {
               <Routes>
               <Route path="/" element={<Main theme={storedTheme}/>}/>
               <Route path="/contact" element={<Contact theme={storedTheme}/>}/>
+              <Route path="/strava" element={<Strava theme={storedTheme}/>}/>
               <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
               <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
               <Route path="/404" element={<NotFound/>}/>
