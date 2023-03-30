@@ -2,9 +2,17 @@ import React from 'react';
 import { Box } from '@chakra-ui/react'
 import { Link } from "react-router-dom";
 
-export default function PostList({id, title, content, image, theme}) {
-    function slug(string) {
-        return string.toLowerCase()
+type PostListInput = {
+    id: string,
+    title: string,
+    image: string,
+    theme: string
+}
+
+export default function PostList({id, title, image, theme}: PostListInput) {
+    console.log('theme from PostList', theme);
+    function slug(str: string) {
+        return str.toLowerCase()
         .replace(/ /g, '-')
         .replace(/[^\w-]+/g, '');
     }
@@ -15,12 +23,11 @@ export default function PostList({id, title, content, image, theme}) {
                 <img src={image} alt={title}/>
                 <Box p={6}>
                     <Box 
-                        slug={title}
                         mt='1'
                         fontWeight='semibold'
                         color={theme === 'light' ? '#333' : '#fff'}
                         as='h4'
-                        lineWeight='tight'>
+                        >
                         {title}
                     </Box>
                 </Box>

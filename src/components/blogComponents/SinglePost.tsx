@@ -2,20 +2,32 @@ import React, { useState } from 'react';
 import { useLocation } from "react-router-dom";
 import { Container, Heading } from '@chakra-ui/react'
 
-export default function SinglePost({theme}) {
+var parse = require('html-react-parser');
+
+type Props = {
+    theme: string
+}
+
+type PostData = {
+    title: string,
+    content: string,
+    image: string
+}
+
+export default function SinglePost({theme}: Props) {
 
     const location = useLocation();
     const [postDataId, setPostData] = useState({});
-    const [postData, setCurrentPost] = useState(null);
+    const [postData, setCurrentPost] = useState<PostData>({image: '', title: '', content: ''});
     const isLightTheme = theme === 'light';
-    const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
+    const styleColor = isLightTheme ? {color:'#333', background:'#fff'} : {color:'#fff', background:'#333'};
     const color = isLightTheme ? '#333' : '#fff';
 
     const env = process.env.REACT_APP_STAGE;
 
-    const fetchCurrentPost = async (id) => {
+    const fetchCurrentPost = async (id: string) => {
         const res = await fetch(
-            `https://${env}emilydaitch.click/getCurrentTopic.php?id=${id}`
+            `https://${env}emilydaitch.click/api/getCurrentTopic?id=${id}`
         )
 
         return await res.json();
@@ -33,7 +45,7 @@ export default function SinglePost({theme}) {
                 window.location.href='/404';
             }
         }, 10000)
-    },[location.state])
+    })
 
     return (
         <>
@@ -53,7 +65,7 @@ export default function SinglePost({theme}) {
                     <br/>
                     <br/>
                     <p color={color}>
-                        {postData.content}
+                        {parse(postData.content)}
                     </p>
                 </Container>
             }
