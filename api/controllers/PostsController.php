@@ -1,11 +1,11 @@
 <?php
-header("Access-Control-Allow-Origin: *");
 namespace Api\Controllers;
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-//require "services/DB.php";
-use Services\DB;
 
+define('__ROOT__', dirname(dirname(dirname(__FILE__))));
+require_once(__ROOT__.'/api/services/DB.php');
+use Services\DB;
 class PostsController
 {
     public $conn = null;
@@ -106,7 +106,7 @@ class PostsController
         try
         {
             $this->getHeaders();
-            echo "<pre>";
+            //echo "<pre>";
             $perPage = $_GET['limit'] ?? 5;
             $pageNumber = $_GET['offset'] ?? 0;
             $postsArray = [];
@@ -133,7 +133,7 @@ class PostsController
 
             mysqli_close($this->conn);
             echo json_encode($postsArray, JSON_PRETTY_PRINT);
-            return json_encode($postsArray, JSON_PRETTY_PRINT);
+            //return json_encode($postsArray, JSON_PRETTY_PRINT);
         }
         catch(\Exception $e)
         {
@@ -166,44 +166,32 @@ class PostsController
                 }
             }
 
-            //echo json_encode($postsArray, JSON_PRETTY_PRINT);
+            echo json_encode($postsArray, JSON_PRETTY_PRINT);
 
         }
         catch(\Exception $e)
         {
-
+            echo "Exception";
         }
-
-        return {
-            posts: [
-                {
-                    id: 1,
-                    title: 'searchResult1'
-                },
-                {
-                    id: 2,
-                    title: 'searchResult2'
-                }
-            ]
-        };
     }
 
+    // Uncomment for local development to resolve CORS issue
     public function getHeaders()
     {
-        header("Access-Control-Allow-Origin: *");
-        header("Access-Control-Allow-Credentials: *");
-        header('Access-Control-Max-Age: 86400');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
+        // header("Access-Control-Allow-Origin: *");
+        // header("Access-Control-Allow-Credentials: *");
+        // header('Access-Control-Max-Age: 86400');
+        // header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
 
-        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-                header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        // if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+        //     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+        //         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 
-            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-                header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+        //     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+        //         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
 
-        }
-        exit(0);
+        // }
+        //exit(0);
     }
 
     public function getCurrentTopic()
