@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
     theme: string
@@ -13,5 +13,5 @@ export default function Contact({theme}: Props) {
             <br/><Link to='https://www.linkedin.com/in/emilydaitch'>Linkedin</Link>
             <br/><button onClick={() => win.location = 'mailto:emily.daitch@gmail.com'}>Email Me</button>
         </div>
-    )
+    );
 }
