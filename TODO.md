@@ -1,6 +1,6 @@
-[ ] Look into a way to avoid passing theme around for light/dark mode
-[ ] make a linting script
-[ ] get the api/routing working without the server hack
-[ ] cleanup un-needed files from create-react-app
+[ ] Look into a way to avoid passing theme around for light/dark mode<br>
+[x] make a linting script<br>
+[x] get the api/routing working without the server hack<br>
+[ ] cleanup un-needed files from create-react-app<br>
 
 Non-repo:
