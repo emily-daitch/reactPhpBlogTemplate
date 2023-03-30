@@ -1,6 +1,8 @@
 I'm developing this as part of an effort to build my portfolio and to strengthen my skills with react / learn php.
 Maybe students could learn from this as a starting point to experiment, or other developers could use it to build a blog/portfolio.
 
+I will soon add instructions here for setting this up for local development with XAMPP and for deploying your own site.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
