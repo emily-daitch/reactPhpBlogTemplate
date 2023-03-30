@@ -4,8 +4,6 @@ import './App.css';
 import Main from './components/Main';
 import Contact from './components/Pages/Contact';
 import Resume from './components/Pages/Resume';
-import { lightTheme, darkTheme, GlobalStyles } from './theme';
-import { ThemeProvider } from "styled-components"
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
   Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
   ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
@@ -13,14 +11,20 @@ import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
 import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons'
+import { Wrapper } from './App.styles'
+
+type SearchResultItem = {
+  id: string,
+  title: string
+}
 
 function App() {
   const [storedTheme, setStoredTheme] = useLocalStorage("theme", "dark");
-  const [searchTerm, setSearchTerm] = useState([]);
+  const [searchTerm, setSearchTerm] = useState<string>('');
   const [searchResultItems, setSearchResultItems] = useState([]);
   const [isSwitchOn, setIsSwitchOn] = useState(storedTheme === 'dark' ? true : false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const initialRef = React.useRef();
+  const initialRef = React.useRef(null);
 
   const onCloseClear = () => {
     onClose();
@@ -29,17 +33,18 @@ function App() {
 
   const env = process.env.REACT_APP_STAGE;
 
-  const fetchSearchResults = async (searchTerm) => {
-    const res = await fetch(
-      `https://${env}emilydaitch.click/searchResults.php?keyword=${searchTerm}`
-    );
-
-        
-    const data = await res.json();
-    return data;
-  }
-
   useEffect(() => {
+    const fetchSearchResults = async (searchTerm: string) => {
+      console.log('fetching with search term', searchTerm);
+      const res = await fetch(
+        `https://${env}emilydaitch.click/searchResults.php?keyword=${searchTerm}`
+      );
+  
+          
+      const data = await res.json();
+      return data;
+    }
+
     const getUsersInput = setTimeout(() => {
       fetchSearchResults(searchTerm).then((item) => {
         setSearchResultItems(item.posts)
@@ -47,10 +52,10 @@ function App() {
     }, 100)
 
     return () =>clearTimeout(getUsersInput);
-  }, [searchTerm])
+  }, [searchTerm, env])
 
   // Hook
-function useLocalStorage(key, initialValue) {
+function useLocalStorage(key: string, initialValue: string) {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -70,7 +75,7 @@ function useLocalStorage(key, initialValue) {
   });
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value) => {
+  const setValue = (value: any) => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore =
@@ -98,20 +103,19 @@ function useLocalStorage(key, initialValue) {
     !isSwitchOn ? setStoredTheme('dark') : setStoredTheme('light');
   }
 
-  function slug(string) {
-    return string.toLowerCase()
+  function slug(str: string) {
+    return str.toLowerCase()
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
   }
 
   return (
+    <Wrapper test={storedTheme}>
     <ChakraProvider>
-      <ThemeProvider theme={storedTheme === 'light' ? lightTheme : darkTheme}>
         <BrowserRouter>
-          <GlobalStyles/>
           <Box  p={4} 
                 bg={ storedTheme === 'light' ? '#333' : '#fff'}
-                borderButton={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
+                borderBottom={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
                 color={ storedTheme === 'light' ? '#fff' : '#333'}>
             <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
               <HStack spacing={16} alignItems={'left'}>
@@ -148,10 +152,10 @@ function useLocalStorage(key, initialValue) {
             onClose={onCloseClear}
             isOpen={isOpen}
             motionPreset='slideInBottom'
-            bg='blue'>
+            >
               <ModalOverlay 
-                backgroundFilter='auto'
-                backgroundInvert='80%'
+                backdropFilter='auto'
+                backdropInvert='80%'
                 backdropBlur='2px'>
                   <ModalContent>
                   <ModalHeader color={storedTheme === 'light' ? '#333' : '#fff'} bg={storedTheme === 'light' ? '#fff' : '#333'}
@@ -160,7 +164,7 @@ function useLocalStorage(key, initialValue) {
                   </ModalHeader>
                   <ModalBody  bg={storedTheme === 'light' ? '#fff' : '#333'} pb={6}>
                     <FormControl mt={4}>
-                      <Input placeHolder=''
+                      <Input placeholder=''
                         ref={initialRef}
                         color={storedTheme === 'light' ? '#333' : '#fff'}
                         onChange={(e)=> setSearchTerm(e.target.value)}
@@ -169,7 +173,7 @@ function useLocalStorage(key, initialValue) {
                     <br/>
                     {searchResultItems && 
                       <UnorderedList>
-                        {searchResultItems.map(function(item){
+                        {searchResultItems.map(function(item: SearchResultItem){
                           return (<Link to={slug(item.title)} key={item.id} state={item.id}>
                             <ListItem color={storedTheme === 'light' ? '#333' : '#fff'}
                             bg={storedTheme === 'light' ? '#fff' : '#333'} key={item.id}>
@@ -202,8 +206,8 @@ function useLocalStorage(key, initialValue) {
             </Container>
           </div>
         </BrowserRouter>
-      </ThemeProvider>
     </ChakraProvider>
+    </Wrapper>
   );
 }
 

@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Resume({theme}) {
+type Props = {
+    theme: string
+}
+
+export default function Resume({theme}: Props) {
     const isLightTheme = theme === 'light';
     const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
     const color = isLightTheme ? '#333' : '#fff';
