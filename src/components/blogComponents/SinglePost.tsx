@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useLocation } from "react-router-dom";
-import { Container, Heading } from '@chakra-ui/react'
-
-var parse = require('html-react-parser');
+import { useLocation } from 'react-router-dom';
+import { Container, Heading } from '@chakra-ui/react';
+import parse from 'html-react-parser';
 
 type Props = {
     theme: string
@@ -28,10 +27,10 @@ export default function SinglePost({theme}: Props) {
     const fetchCurrentPost = async (id: string) => {
         const res = await fetch(
             `https://${env}emilydaitch.click/api/getCurrentTopic?id=${id}`
-        )
+        );
 
         return await res.json();
-    }
+    };
 
     useState(()=> {
         setPostData(location.state);
@@ -44,8 +43,8 @@ export default function SinglePost({theme}: Props) {
             if(location.state == null){
                 window.location.href='/404';
             }
-        }, 10000)
-    })
+        }, 10000);
+    });
 
     return (
         <>
@@ -70,5 +69,5 @@ export default function SinglePost({theme}: Props) {
                 </Container>
             }
         </>
-    )
+    );
 }

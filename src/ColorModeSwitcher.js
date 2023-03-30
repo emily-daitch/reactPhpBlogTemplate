@@ -17,4 +17,4 @@ export const ColorModeSwitcher = props => {
         icon={<SwitchIcon/>}
         {...props}
     />);
-}
+};

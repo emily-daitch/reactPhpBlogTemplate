@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
     theme: string
@@ -16,5 +16,5 @@ export default function Resume({theme}: Props) {
                 <p color={color}>View/Download my Resume</p>
             </Link>
         </div>
-    )
+    );
 }
