@@ -14,13 +14,12 @@ if(str_contains($current_link, '?'))
 {
     $current_link = explode('?', $current_link)[0];
 }
-//var_dump($current_link);
 
 // Routes
 $urls = [
-    '/api/posts' => ['PostsController@getPostsFromDatabase'],
-    '/api/searchResults' => ['PostsController@getSearchResults'],
-    '/api/getCurrentTopic' => ['PostsController@getCurrentTopic'],
+    '/reactPhpBlogTemplate/api/posts' => ['PostsController@getPostsFromDatabase'],
+    '/reactPhpBlogTemplate/api/searchResults' => ['PostsController@getSearchResults'],
+    '/reactPhpBlogTemplate/api/getCurrentTopic' => ['PostsController@getCurrentTopic'],
 ];
 
 $availableRoutes = array_keys($urls);

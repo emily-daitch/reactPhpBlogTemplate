@@ -70,7 +70,7 @@ export default function Main({theme}: Props) {
         const fetchPosts = async (pageSize: string, offset: string) => {
             console.log('fetching with pageSize', pageSize, 'and offset', offset);
             const res = await fetch(
-                `https://${env}emilydaitch.click/api/posts?limit=${pageSize}&offset=${offset}`
+                `http://localhost/reactPhpBlogTemplate/api/posts?limit=${pageSize}&offset=${offset}`
             );
             console.log('res', res);
             

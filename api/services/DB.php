@@ -2,14 +2,20 @@
 
 namespace services;
 
-include 'sharkweek-staging.php'; // Lives outside repo / webroot
 use mysqli;
 
 class DB
 {
     public function database()
     {
-        global $servername, $username, $password, $database;
+        // To hijack this DB connector for local development, comment the line below and uncomment the following block
+        //global $servername, $username, $password, $database;
+        ///*
+        $username = 'root';
+        $password = '';
+        $servername = 'localhost';
+        $database = "react_php";
+        //*/
         // Making connection
         $conn = mysqli_connect($servername, $username, $password, $database);
         unset($servername, $username, $password, $database);

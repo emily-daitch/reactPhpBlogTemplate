@@ -106,7 +106,7 @@ class PostsController
         try
         {
             $this->getHeaders();
-            //echo "<pre>";
+
             $perPage = $_GET['limit'] ?? 5;
             $pageNumber = $_GET['offset'] ?? 0;
             $postsArray = [];
@@ -133,7 +133,6 @@ class PostsController
 
             mysqli_close($this->conn);
             echo json_encode($postsArray, JSON_PRETTY_PRINT);
-            //return json_encode($postsArray, JSON_PRETTY_PRINT);
         }
         catch(\Exception $e)
         {
@@ -178,20 +177,19 @@ class PostsController
     // Uncomment for local development to resolve CORS issue
     public function getHeaders()
     {
-        // header("Access-Control-Allow-Origin: *");
-        // header("Access-Control-Allow-Credentials: *");
-        // header('Access-Control-Max-Age: 86400');
-        // header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Credentials: *");
+        header('Access-Control-Max-Age: 86400');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, OPTIONS');
 
-        // if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-        //     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-        //         header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+                header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 
-        //     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-        //         header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+                header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
 
-        // }
-        //exit(0);
+        }
     }
 
     public function getCurrentTopic()

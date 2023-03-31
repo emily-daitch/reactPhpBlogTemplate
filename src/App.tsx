@@ -38,7 +38,7 @@ function App() {
         const fetchSearchResults = async (searchTerm: string) => {
             console.log('fetching with search term', searchTerm);
             const res = await fetch(
-                `https://${env}emilydaitch.click/api/searchResults?keyword=${searchTerm}`
+                `http://localhost/reactPhpBlogTemplate/api/searchResults?keyword=${searchTerm}`
             );
   
           

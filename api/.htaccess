@@ -1,7 +1,7 @@
 Options +FollowSymLinks -MultiViews
 
 RewriteEngine On
-RewriteBase /reactPhp/api/
+RewriteBase /reactPhpBlogTemplate/api/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
