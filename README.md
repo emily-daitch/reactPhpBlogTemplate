@@ -39,6 +39,7 @@ This is because with the way things are set up, XAMPP's apache server is serving
 
 Go to index.php and uncomment getPosts() to populate your database by refreshing localhost/reactPhpBlogTemplate. You may need to update api/services/DB.php with your db credentials for this to work if you did not go with the defaults.
 
+## Serving the site locally with data populated
 Now, you can refresh localhost:3000.
 You should now see the home page with the posts you have saved. You can change the posts contents through phpMyAdmin. Have fun!
 
