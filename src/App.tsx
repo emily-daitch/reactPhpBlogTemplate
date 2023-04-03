@@ -197,7 +197,7 @@ function App() {
                         </ModalOverlay>
                     </Modal>
 
-                    <div className='App'>
+                    <div className='App' style={{height:'100%'}}>
                         <Container maxW="1200px" marginTop={'50px'}>
                             <Routes>
                                 <Route path="/" element={<Main theme={storedTheme}/>}/>
