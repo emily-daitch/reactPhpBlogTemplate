@@ -33,12 +33,16 @@ function App() {
     };
 
     const env = process.env.REACT_APP_STAGE;
+    const url = process.env.REACT_APP_URL;
+    const certed = process.env.REACT_APP_CERTED;
+    console.log('certed ', certed);
+    const protocol = certed === 'false' ? 'http' : 'https';
 
     useEffect(() => {
         const fetchSearchResults = async (searchTerm: string) => {
             console.log('fetching with search term', searchTerm);
             const res = await fetch(
-                `http://localhost/reactPhpBlogTemplate/api/searchResults?keyword=${searchTerm}`
+                `${protocol}://${url}/api/searchResults?keyword=${searchTerm}`
             );
   
           

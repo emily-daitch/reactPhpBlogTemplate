@@ -23,10 +23,14 @@ export default function SinglePost({theme}: Props) {
     const color = isLightTheme ? '#333' : '#fff';
 
     const env = process.env.REACT_APP_STAGE;
+    const url = process.env.REACT_APP_URL;
+    const certed = process.env.REACT_APP_CERTED;
+    console.log('certed ', certed);
+    const protocol = certed === 'false' ? 'http' : 'https';
 
     const fetchCurrentPost = async (id: string) => {
         const res = await fetch(
-            `https://${env}emilydaitch.click/api/getCurrentTopic?id=${id}`
+            `${protocol}://${env}${url}/api/getCurrentTopic?id=${id}`
         );
 
         return await res.json();

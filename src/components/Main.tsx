@@ -65,12 +65,16 @@ export default function Main({theme}: Props) {
     };
 
     const env = process.env.REACT_APP_STAGE;
+    const url = process.env.REACT_APP_URL;
+    const certed = process.env.REACT_APP_CERTED;
+    console.log('certed ', certed);
+    const protocol = certed === 'false' ? 'http' : 'https';
 
     useEffect(() => {        
         const fetchPosts = async (pageSize: string, offset: string) => {
             console.log('fetching with pageSize', pageSize, 'and offset', offset);
             const res = await fetch(
-                `http://localhost/reactPhpBlogTemplate/api/posts?limit=${pageSize}&offset=${offset}`
+                `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
             );
             console.log('res', res);
             
@@ -89,13 +93,14 @@ export default function Main({theme}: Props) {
     } : {
         color: '#333'
     };
+    const portfolioUrl = `https://${process.env.REACT_APP_PORTFOLIO_SITE}`;
 
     return (
         <>
             <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>YouTube tuorial</Link> by&ensp;
                 <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. It is hosted on an Apache server with Hostinger.</p>
             <p style={color}>For the moment, this is best viewed in Chrome and mobile is not supported, but is in the works!</p>
-            <p style={color}>See my main portfolio site <Link href='https://emilydaitch.me' color='teal.500'>here</Link>.</p>
+            <p style={color}>See my main portfolio site <Link href={portfolioUrl} color='teal.500'>here</Link>.</p>
             <StyledPaginator
                 pagesQuantity={pagesQuantity}
                 currentPage={currentPage}
