@@ -11,14 +11,17 @@ export default function Strava({theme}: Props) {
     const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
     const color = isLightTheme ? '#333' : '#fff';
 
+    const client_secret = process.env.REACT_APP_STRAVA_CLIENT_SECRET;
+    const refresh_token = process.env.REACT_APP_STRAVA_REFRESH_TOKEN;
+
     const [stravaData, setStravaData] = useState({});
 
     const auth_url = 'https://www.strava.com/oauth/token';
         
     const payload = {
         client_id: '104520',
-        client_secret: 'c43faa53bae662f26d5fa4976683a56908a994c3',
-        refresh_token: 'ced5a05bc1dc04c512818f940bb4270738bc4101',
+        client_secret: client_secret,
+        refresh_token: refresh_token,
         grant_type: 'refresh_token',
         f: 'json'
     };
