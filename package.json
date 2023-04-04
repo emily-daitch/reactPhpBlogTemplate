@@ -1,8 +1,8 @@
 {
-  "name": "emilydaitchclick",
+  "name": "reactPhpBlogTemplate",
   "version": "0.1.0",
-  "homepage": "https://emilydaitch.click",
-  "description": "my portfolio site",
+  "homepage": "http://localhost/reactPhpBlogTemplate",
+  "description": "React/PHP Blog Template",
   "private": true,
   "dependencies": {
     "@chakra-ui/icons": "^2.0.17",
