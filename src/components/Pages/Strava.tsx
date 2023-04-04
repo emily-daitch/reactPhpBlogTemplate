@@ -12,6 +12,7 @@ type Props = {
 export default function Strava({theme}: Props) {
     const isLightTheme = theme === 'light';
     const styleColor = isLightTheme ? {color:'#333', margin: 'auto'} : {color:'#fff', margin: 'auto'};
+    const google_maps_token = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
     const [stravaData, setStravaData] = useState([{
         'name' : 'Happy Friday',
@@ -130,7 +131,7 @@ export default function Strava({theme}: Props) {
     const padding = { top: 70, bottom: 100, left: 10, right: 10 };
 
     const exampleMapItem = parsedStravaData.find(x => x?.id === 8809747810);
-    const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=AIzaSyCcaDzJ7Fgw7AztKYyawETL9ZntRbQ9zeE`;
+    const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
         <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
             See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'blue'}}>here</Link>.
