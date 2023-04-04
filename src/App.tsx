@@ -115,7 +115,7 @@ function App() {
     }
 
     return (
-        <Wrapper test={storedTheme}>
+        <Wrapper test={storedTheme} style={{paddingBottom: 100}}>
             <ChakraProvider>
                 <BrowserRouter>
                     <Box  p={4} 
