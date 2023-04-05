@@ -202,7 +202,7 @@ function App() {
                     </Modal>
 
                     <div className='App' style={{height:'100%'}}>
-                        <Container maxW="1200px" marginTop={'50px'}>
+                        <Container maxW="1200px" marginTop={'50px'} height={'100vh'}>
                             <Routes>
                                 <Route path="/" element={<Main theme={storedTheme}/>}/>
                                 <Route path="/contact" element={<Contact theme={storedTheme}/>}/>

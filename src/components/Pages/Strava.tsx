@@ -139,7 +139,7 @@ export default function Strava({theme}: Props) {
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
         <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
-            See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'blue'}}>here</Link>.
+            See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'teal'}} target="_blank" rel="noopener noreferrer">here</Link>.
             <br/><br/>
             Last Week of Activity:
             <Grid templateColumns='repeat(2, 1fr)' gap={6} justifyContent={'center'} display={'flex'}>

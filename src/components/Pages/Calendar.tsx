@@ -24,7 +24,7 @@ export default function Calendar({theme}: Props) {
                     scrolling="no"></iframe>
             </div>
             <br/>
-            <p color={color}>Schedule a meeting with me <Link to={calendly_link} style={{color: 'teal'}}>here</Link>.</p>
+            <p color={color}>Schedule a meeting with me <Link to={calendly_link} target="_blank" rel="noopener noreferrer" style={{color: 'teal'}}>here</Link>.</p>
         </div>
     );
 }
