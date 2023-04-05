@@ -5,6 +5,7 @@ import Main from './components/Main';
 import Contact from './components/Pages/Contact';
 import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
+import Calendar from './components/Pages/Calendar';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
@@ -136,6 +137,9 @@ function App() {
                                     <Link to="/resume">
                             Resume
                                     </Link>
+                                    <Link to="/calendar">
+                            Calendar
+                                    </Link>
                                 </HStack>
                             </HStack>
                             <Search2Icon onClick={onOpen}>
@@ -204,6 +208,7 @@ function App() {
                                 <Route path="/contact" element={<Contact theme={storedTheme}/>}/>
                                 <Route path="/strava" element={<Strava theme={storedTheme}/>}/>
                                 <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
+                                <Route path="/calendar" element={<Calendar theme={storedTheme}/>}/>
                                 <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
                                 <Route path="/404" element={<NotFound/>}/>
                             </Routes>
