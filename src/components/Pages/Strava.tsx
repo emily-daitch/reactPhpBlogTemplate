@@ -4,6 +4,7 @@ import { getActivities } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
 import { Grid } from '@chakra-ui/react';
 import { VictoryBar, VictoryLegend, VictoryStack, VictoryChart, VictoryAxis, VictoryTheme, VictoryContainer, VictoryLabel } from 'victory';
+import moment from 'moment';
 
 type Props = {
     theme: string
@@ -91,14 +92,16 @@ export default function Strava({theme}: Props) {
     }
 
     const dateArray = [
+        new Date(Date.now()).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*2)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*3)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*4)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*5)).toISOString().slice(0,10),
-        new Date(Date.now() - (60*60*24*1000*6)).toISOString().slice(0,10),
-        new Date(Date.now() - (60*60*24*1000*7)).toISOString().slice(0,10)
+        new Date(Date.now() - (60*60*24*1000*6)).toISOString().slice(0,10)
     ];
+    const formattedDates = dateArray.map(date => moment(date, 'YYYY-MM-DD').toDate());
+    console.log('formatted dated', formattedDates);
 
     const parsedStravaData = stravaData.filter((datum: SummaryActivity) => {
         datum.distance = datum.distance * 0.000621371;
@@ -127,8 +130,10 @@ export default function Strava({theme}: Props) {
     const walkData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Walk' ? true : false;
     });
+    console.log('runData', runData);
+    console.log('walkData', walkData);
     
-    const padding = { top: 70, bottom: 100, left: 10, right: 10 };
+    const padding = { top: 70, bottom: 100, left: 80, right: 10 };
 
     const exampleMapItem = parsedStravaData.find(x => x?.id === 8809747810);
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
@@ -160,10 +165,29 @@ export default function Strava({theme}: Props) {
                             { name: 'Bikes', symbol: { fill: 'gold' }}
                         ]}
                     />
+                    <VictoryStack
+                        colorScale={['orange', 'tomato']}
+                    >
+                        <VictoryBar
+                            data={walkData}
+                            // data accessor for x values
+                            x="start_date"
+                            // data accessor for y values
+                            y="distance"
+                        />
+                        <VictoryBar
+                            data={runData}
+                            // data accessor for x values
+                            x="start_date"
+                            // data accessor for y values
+                            y="distance"
+                        />
+                    </VictoryStack>
                     <VictoryAxis
                         // tickValues specifies both the number of ticks and where
                         // they are placed on the axis
-                        tickValues={dateArray}
+                        scale='time'
+                        tickValues={formattedDates}
                         // tickFormat={(x) => (`${()}`)}
                         fixLabelOverlap
                         axisLabelComponent={<VictoryLabel dy={25} />}
@@ -174,24 +198,6 @@ export default function Strava({theme}: Props) {
                         // tickFormat specifies how ticks should be displayed
                         tickFormat={(x) => (`${(x).toFixed(1)} mi`)}
                     />
-                    <VictoryStack
-                        colorScale={['tomato', 'orange']}
-                    >
-                        <VictoryBar
-                            data={runData}
-                            // data accessor for x values
-                            x="start_date"
-                            // data accessor for y values
-                            y="distance"
-                        />
-                        <VictoryBar
-                            data={walkData}
-                            // data accessor for x values
-                            x="start_date"
-                            // data accessor for y values
-                            y="distance"
-                        />
-                    </VictoryStack>
                 </VictoryChart>
                 <p style={{alignItems: 'center', display: 'flex'}}>Totals for the past week:<br/>
                         Total miles walked: {walkData.reduce(
