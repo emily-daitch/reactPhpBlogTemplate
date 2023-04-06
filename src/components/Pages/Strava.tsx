@@ -110,25 +110,11 @@ export default function Strava({theme}: Props) {
         return dateArray.includes(datum.start_date) ? true : false;
     });
 
-    const getAverageWalkingSpeed = () => {
-        const speedTotal = Number(walkData.reduce(
+    const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
+        const speedTotal = Number(exerciseData.reduce(
             (accumulator, currentValue) => accumulator + currentValue.average_speed,
             0));
-        return speedTotal / walkData.length;
-    };
-
-    const getAverageRunningSpeed = () => {
-        const speedTotal = Number(runData.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.average_speed,
-            0));
-        return speedTotal / runData.length;
-    };
-
-    const getAverageBikingSpeed = () => {
-        const speedTotal = Number(bikeData.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.average_speed,
-            0));
-        return speedTotal / bikeData.length;
+        return speedTotal / exerciseData.length;
     };
 
     const runData = parsedStravaData.filter((datum: SummaryActivity) => {
@@ -229,9 +215,9 @@ export default function Strava({theme}: Props) {
                         (accumulator, currentValue) => accumulator + currentValue.distance,
                         0).toFixed(1)} mi.<br/><br/>
                         Average speeds for the past week:<br/>
-                        Avg. walking speed: {getAverageWalkingSpeed().toFixed(1)} mi/h.<br/>
-                        Avg. running speed: {getAverageRunningSpeed().toFixed(1)} mi/h.<br/>
-                        Avg. biking speed: {getAverageBikingSpeed().toFixed(1)} mi/h.<br/><br/>
+                        Avg. walking speed: {getAverageSpeed(walkData).toFixed(1)} mi/h.<br/>
+                        Avg. running speed: {getAverageSpeed(runData).toFixed(1)} mi/h.<br/>
+                        Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
                 </p>
             </Grid>
             <p>Example Google Maps Static API Route Render:</p><br/>
