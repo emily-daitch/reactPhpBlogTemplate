@@ -124,14 +124,26 @@ export default function Strava({theme}: Props) {
         return speedTotal / runData.length;
     };
 
+    const getAverageBikingSpeed = () => {
+        const speedTotal = Number(bikeData.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.average_speed,
+            0));
+        return speedTotal / bikeData.length;
+    };
+
     const runData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Run' ? true : false;
     });
     const walkData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Walk' ? true : false;
     });
+    const bikeData = parsedStravaData.filter((datum: SummaryActivity) => {
+        return datum.sport_type === 'Ride' ? true : false;
+    });
+    console.log('parsedStravaData', stravaData);
     console.log('runData', runData);
     console.log('walkData', walkData);
+    console.log('bikeData', bikeData);
     
     const padding = { top: 70, bottom: 100, left: 80, right: 10 };
 
@@ -166,8 +178,15 @@ export default function Strava({theme}: Props) {
                         ]}
                     />
                     <VictoryStack
-                        colorScale={['orange', 'tomato']}
+                        colorScale={['gold', 'tomato', 'orange']}
                     >
+                        <VictoryBar
+                            data={bikeData}
+                            // data accessor for x values
+                            x="start_date"
+                            // data accessor for y values
+                            y="distance"
+                        />
                         <VictoryBar
                             data={walkData}
                             // data accessor for x values
@@ -206,11 +225,13 @@ export default function Strava({theme}: Props) {
                         Total miles ran: {runData.reduce(
                         (accumulator, currentValue) => accumulator + currentValue.distance,
                         0).toFixed(1)} mi.<br/>
-                        Total miles biked: 0 mi.<br/><br/>
+                        Total miles biked: {bikeData.reduce(
+                        (accumulator, currentValue) => accumulator + currentValue.distance,
+                        0).toFixed(1)} mi.<br/><br/>
                         Average speeds for the past week:<br/>
                         Avg. walking speed: {getAverageWalkingSpeed().toFixed(1)} mi/h.<br/>
                         Avg. running speed: {getAverageRunningSpeed().toFixed(1)} mi/h.<br/>
-                        Avg. biking speed: 0 mi/h.<br/><br/>
+                        Avg. biking speed: {getAverageBikingSpeed().toFixed(1)} mi/h.<br/><br/>
                 </p>
             </Grid>
             <p>Example Google Maps Static API Route Render:</p><br/>

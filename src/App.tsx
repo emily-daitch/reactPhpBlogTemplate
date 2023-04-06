@@ -116,7 +116,7 @@ function App() {
     }
 
     return (
-        <Wrapper test={storedTheme} style={{paddingBottom: 100}}>
+        <Wrapper test={storedTheme} style={{paddingBottom: 300}}>
             <ChakraProvider>
                 <BrowserRouter>
                     <Box  p={4} 
@@ -139,6 +139,9 @@ function App() {
                                     </Link>
                                     <Link to="/calendar">
                             Calendar
+                                    </Link>
+                                    <Link to="/strava">
+                            Strava
                                     </Link>
                                 </HStack>
                             </HStack>
