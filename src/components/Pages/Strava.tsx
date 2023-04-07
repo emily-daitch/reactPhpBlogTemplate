@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SummaryActivity } from '../../types/strava';
+import { SummaryActivity, DateDistance } from '../../types/strava';
 import { getActivities } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
 import { Grid } from '@chakra-ui/react';
@@ -100,6 +100,7 @@ export default function Strava({theme}: Props) {
         new Date(Date.now() - (60*60*24*1000*5)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*6)).toISOString().slice(0,10)
     ];
+    
     const formattedDates = dateArray.map(date => moment(date, 'YYYY-MM-DD').toDate());
     console.log('formatted dated', formattedDates);
 
@@ -126,6 +127,36 @@ export default function Strava({theme}: Props) {
     const bikeData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Ride' ? true : false;
     });
+    const runGraphData: DateDistance[] = [];
+    const walkGraphData: DateDistance[] = [];
+    const bikeGraphData: DateDistance[] = [];
+    for(const date of dateArray){
+        runGraphData.push({
+            start_date: date,
+            distance: runData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.average_speed,
+                0)
+        });
+        walkGraphData.push({
+            start_date: date,
+            distance: walkData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.average_speed,
+                0)
+        });
+        bikeGraphData.push({
+            start_date: date,
+            distance: bikeData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.average_speed,
+                0)
+        });
+    }
+
     console.log('parsedStravaData', stravaData);
     console.log('runData', runData);
     console.log('walkData', walkData);
@@ -133,7 +164,8 @@ export default function Strava({theme}: Props) {
     
     const padding = { top: 70, bottom: 100, left: 80, right: 10 };
 
-    const exampleMapItem = parsedStravaData.find(x => x?.id === 8809747810);
+    const exampleMapItem = stravaData.find(x => x?.id === 8809747810);
+    console.log('exampleMapItem', exampleMapItem);
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
         <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
@@ -167,21 +199,21 @@ export default function Strava({theme}: Props) {
                         colorScale={['gold', 'tomato', 'orange']}
                     >
                         <VictoryBar
-                            data={bikeData}
+                            data={bikeGraphData}
                             // data accessor for x values
                             x="start_date"
                             // data accessor for y values
                             y="distance"
                         />
                         <VictoryBar
-                            data={walkData}
+                            data={walkGraphData}
                             // data accessor for x values
                             x="start_date"
                             // data accessor for y values
                             y="distance"
                         />
                         <VictoryBar
-                            data={runData}
+                            data={runGraphData}
                             // data accessor for x values
                             x="start_date"
                             // data accessor for y values

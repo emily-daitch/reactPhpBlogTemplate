@@ -52,3 +52,8 @@ export type SummaryActivity = {
     has_kudoed : boolean,
     suffer_score : number
 }
+
+export type DateDistance = {
+    start_date: string;
+    distance: number;
+}
