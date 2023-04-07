@@ -6,6 +6,7 @@ import Contact from './components/Pages/Contact';
 import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
+import Login from './components/Pages/Login';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
@@ -151,6 +152,9 @@ function App() {
                             <Flex alignItems={'center'}>
                                 <Spacer></Spacer>
                                 <Stack direction={'row'} spacing={7}>
+                                    <Link to="/login">
+                                        Login
+                                    </Link>
                                     <Switch isChecked={isSwitchOn} onChange={changeThemeSwitch}>
                                         {isSwitchOn ? (<MoonIcon mr="5"></MoonIcon>) : (<SunIcon mr="5"></SunIcon>)}
                                     </Switch>
@@ -212,6 +216,7 @@ function App() {
                                 <Route path="/strava" element={<Strava theme={storedTheme}/>}/>
                                 <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
                                 <Route path="/calendar" element={<Calendar theme={storedTheme}/>}/>
+                                <Route path="/login" element={<Login theme={storedTheme}/>}/>
                                 <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
                                 <Route path="/404" element={<NotFound/>}/>
                             </Routes>
