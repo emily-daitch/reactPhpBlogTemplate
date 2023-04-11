@@ -12,8 +12,7 @@ import Preferences from './components/Pages/Preferences';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
-    Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup,
-    MenuOptionGroup, MenuDivider, Input, Flex } from '@chakra-ui/react';
+    Menu, MenuButton, MenuList, MenuItem, Input, Flex } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
@@ -161,8 +160,18 @@ function App() {
                                             User
                                         </MenuButton>
                                         <MenuList>
-                                            <MenuItem>Preferences</MenuItem>
-                                            <MenuItem>Register</MenuItem>
+                                            <MenuItem as="a" href="/">
+                                                Home
+                                            </MenuItem>
+                                            <MenuItem as="a" href="/register">
+                                                Register
+                                            </MenuItem>
+                                            <MenuItem as="a" href="/login">
+                                                Login
+                                            </MenuItem>
+                                            <MenuItem as="a" href="/preferences">
+                                                Preferences
+                                            </MenuItem>
                                         </MenuList>
                                     </Menu>
                                     <Link to="/login">
