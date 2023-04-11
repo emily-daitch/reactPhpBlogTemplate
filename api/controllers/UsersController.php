@@ -3,7 +3,7 @@ namespace Api\Controllers;
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-define('__ROOT__', dirname(dirname(dirname(__FILE__))));
+//define('__ROOT__', dirname(dirname(dirname(__FILE__))));
 require_once(__ROOT__.'/api/services/DB.php');
 use Services\DB;
 class UsersController
@@ -40,16 +40,15 @@ class UsersController
         {
             $this->getHeaders();
             $submitResponse = null;
-            //$id = $_GET['id'] ?? null;
-            $email = 'email';
-            $password = 'password';
+            $email = $_GET['email'] ?? null;
+            $password = $_GET['password'] ?? null;
 
-            if($username)
+            if($email)
             {
                 // for now, make username the email -- we will probably remove username as I don't plan to use one
                 // this will also give us the chance to write a DB script to bulk edit the table ^.^
                 // don't set id, let it suto-increment
-                $sql = "INSERT INTO users ('username', 'email', 'password') VALUES ($email, $email, $password)";
+                $sql = "INSERT INTO users(`username`, `email`, `password`) VALUES ('".$email."', '".$email."', '".$password."')";
 
                 // use argon2id to salt PW
                 // pepper PW ?
@@ -61,7 +60,7 @@ class UsersController
         }
         catch(\Exception $e)
         {
-            var_dump($e->getMessage);
+            var_dump($e);
             exit;
         }
     }
