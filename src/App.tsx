@@ -182,9 +182,6 @@ function App() {
                                             </MenuItem>
                                         </MenuList>
                                     </Menu>
-                                    <Link to="/login">
-                                        Login
-                                    </Link>
                                     <Switch isChecked={isSwitchOn} onChange={changeThemeSwitch}>
                                         {isSwitchOn ? (<MoonIcon mr="5"></MoonIcon>) : (<SunIcon mr="5"></SunIcon>)}
                                     </Switch>
