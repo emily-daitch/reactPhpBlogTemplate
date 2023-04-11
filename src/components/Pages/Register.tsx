@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FormControl, Input, Button, useDisclosure } from '@chakra-ui/react';
+import * as argon2 from 'argon2';
 
 type Props = {
     theme: string
@@ -21,8 +22,10 @@ export default function Register({theme}: Props) {
     console.log('certed ', certed);
     const protocol = certed === 'false' ? 'http' : 'https';
     const submitNewUser = async (email: string, password: string) => {
+        const hash = await argon2.hash(password);
+
         const res = await fetch(
-            `${protocol}://${env}${url}/api/submitNewUser?email=${email}&password=${password}`
+            `${protocol}://${env}${url}/api/submitNewUser?email=${email}&password=${hash}`
         );
 
         return await res.json();
