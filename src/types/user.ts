@@ -12,7 +12,7 @@ module.exports = {
     ],
     projects: [
         {
-            id: 1, name: 'Strava', userId: 1s
+            id: 1, name: 'Strava', userId: 1
         }
     ]
-}
+};
