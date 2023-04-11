@@ -156,17 +156,28 @@ function App() {
                                 <Spacer></Spacer>
                                 <Stack direction={'row'} spacing={7}>
                                     <Menu>
-                                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                        <MenuButton as={Button} 
+                                            rightIcon={<ChevronDownIcon />} 
+                                            color={storedTheme === 'light' ? '#fff' : '#333'}
+                                            bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                             User Menu
                                         </MenuButton>
-                                        <MenuList>
-                                            <MenuItem as="a" href="/register">
+                                        <MenuList
+                                            color={storedTheme === 'light' ? '#fff' : '#333'}
+                                            bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                            <MenuItem as="a" href="/register"
+                                                color={storedTheme === 'light' ? '#fff' : '#333'}
+                                                bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Register
                                             </MenuItem>
-                                            <MenuItem as="a" href="/login">
+                                            <MenuItem as="a" href="/login"
+                                                color={storedTheme === 'light' ? '#fff' : '#333'}
+                                                bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Login
                                             </MenuItem>
-                                            <MenuItem as="a" href="/preferences">
+                                            <MenuItem as="a" href="/preferences"
+                                                color={storedTheme === 'light' ? '#fff' : '#333'}
+                                                bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Preferences
                                             </MenuItem>
                                         </MenuList>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormControl, Input } from '@chakra-ui/react';
+import { FormControl, Input, Button, useDisclosure } from '@chakra-ui/react';
 
 type Props = {
     theme: string
@@ -9,9 +9,21 @@ export default function Register({theme}: Props) {
     const isLightTheme = theme === 'light';
     const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
     const color = isLightTheme ? '#333' : '#fff';
+    const textColor = isLightTheme ? '#fff' : '#333';
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const initialRef = React.useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const onCloseClear = () => {
+        onClose();
+        setEmail('Email');
+        setPassword('Password');
+    };
+
+    const onSubmit = () => {
+        // save user to DB
+    };
 
     return(
         <>
@@ -30,6 +42,19 @@ export default function Register({theme}: Props) {
                     onChange={(e)=> setPassword(e.target.value)}
                 />
             </FormControl>
+            <Button bg={color}
+                color={textColor} 
+                onClick={onSubmit}
+                marginRight={6}
+                marginTop={6}>
+                      Submit
+            </Button>
+            <Button bg={color}
+                color={textColor} 
+                onClick={onCloseClear}
+                marginTop={6}>
+                      Clear
+            </Button>
         </>
     );
 }
