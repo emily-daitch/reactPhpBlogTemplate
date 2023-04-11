@@ -157,12 +157,9 @@ function App() {
                                 <Stack direction={'row'} spacing={7}>
                                     <Menu>
                                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-                                            User
+                                            User Menu
                                         </MenuButton>
                                         <MenuList>
-                                            <MenuItem as="a" href="/">
-                                                Home
-                                            </MenuItem>
                                             <MenuItem as="a" href="/register">
                                                 Register
                                             </MenuItem>
