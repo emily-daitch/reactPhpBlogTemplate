@@ -7,10 +7,13 @@ import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
 import Login from './components/Pages/Login';
+import Register from './components/Pages/Register';
+import Preferences from './components/Pages/Preferences';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
-    Input, Flex } from '@chakra-ui/react';
+    Menu, MenuButton, MenuList, MenuItem, MenuItemOption, MenuGroup,
+    MenuOptionGroup, MenuDivider, Input, Flex } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons';
@@ -152,6 +155,15 @@ function App() {
                             <Flex alignItems={'center'}>
                                 <Spacer></Spacer>
                                 <Stack direction={'row'} spacing={7}>
+                                    <Menu>
+                                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                                            User
+                                        </MenuButton>
+                                        <MenuList>
+                                            <MenuItem>Preferences</MenuItem>
+                                            <MenuItem>Register</MenuItem>
+                                        </MenuList>
+                                    </Menu>
                                     <Link to="/login">
                                         Login
                                     </Link>
@@ -217,6 +229,8 @@ function App() {
                                 <Route path="/resume" element={<Resume theme={storedTheme}/>}/>
                                 <Route path="/calendar" element={<Calendar theme={storedTheme}/>}/>
                                 <Route path="/login" element={<Login theme={storedTheme}/>}/>
+                                <Route path="/register" element={<Register theme={storedTheme}/>}/>
+                                <Route path="/preferences" element={<Preferences theme={storedTheme}/>}/>
                                 <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
                                 <Route path="/404" element={<NotFound/>}/>
                             </Routes>
