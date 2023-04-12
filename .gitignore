@@ -16,6 +16,8 @@
 .env
 .dev.env
 .stag.env
+test.js
+test.ts
 
 npm-debug.log*
 yarn-debug.log*
