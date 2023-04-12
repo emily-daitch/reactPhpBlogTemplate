@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { FormControl, Input, Button, useDisclosure } from '@chakra-ui/react';
 import axios from 'axios';
 
 type Props = {
@@ -10,6 +11,25 @@ export default function Login({theme}: Props) {
     const isLightTheme = theme === 'light';
     const styleColor = isLightTheme ? {color:'#333'} : {color:'#fff'};
     const color = isLightTheme ? '#333' : '#fff';
+    const textColor = isLightTheme ? '#fff' : '#333';
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const initialRef = React.useRef(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    const env = process.env.REACT_APP_STAGE;
+    const url = process.env.REACT_APP_URL;
+    const certed = process.env.REACT_APP_CERTED;
+    console.log('certed ', certed);
+    const protocol = certed === 'false' ? 'http' : 'https';
+    const checkUserCredentials = async (email: string, password: string) => {
+
+        const res = await fetch(
+            `${protocol}://${env}${url}/api/checkUserCredentials?email=${email}&password=${password}`
+        );
+
+        return await res.json();
+    };
 
     type User = {
         access_token: string;
@@ -47,6 +67,17 @@ export default function Login({theme}: Props) {
         [ user ]
     );
 
+    const onCloseClear = () => {
+        onClose();
+        setEmail('Email');
+        setPassword('Password');
+    };
+
+    const onSubmit = async () => {
+        // save user to DB
+        await checkUserCredentials(email, password);
+    };
+
     // log out function to log the user out of google and set the profile array to null
     const logOut = () => {
         googleLogout();
@@ -71,7 +102,36 @@ export default function Login({theme}: Props) {
                         <button onClick={logOut}>Log out</button>
                     </div>
                 ) : (
-                    <button onClick={() => login()}>Sign in with Google 🚀 </button>
+                    <>
+                        <button onClick={() => login()}>Sign in with Google 🚀 </button>
+                        <FormControl mt={4}>
+                            <Input placeholder='Email'
+                                ref={initialRef}
+                                color={color}
+                                onChange={(e)=> setEmail(e.target.value)}
+                            />
+                        </FormControl>
+                        <FormControl mt={4}>
+                            <Input placeholder='Password'
+                                ref={initialRef}
+                                color={color}
+                                onChange={(e)=> setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button bg={color}
+                            color={textColor} 
+                            onClick={onSubmit}
+                            marginRight={6}
+                            marginTop={6}>
+                                Submit
+                        </Button>
+                        <Button bg={color}
+                            color={textColor} 
+                            onClick={onCloseClear}
+                            marginTop={6}>
+                                Clear
+                        </Button>
+                    </>
                 )}
             </div>
         </div>
