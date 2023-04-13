@@ -48,7 +48,7 @@ class UsersController
                 // for now, make username the email -- we will probably remove username as I don't plan to use one
                 // this will also give us the chance to write a DB script to bulk edit the table ^.^
                 // don't set id, let it suto-increment
-                $hash = password_hash('somepassword', PASSWORD_ARGON2I, ['memory_cost' => 2048, 'time_cost' => 4, 'threads' => 3]);
+                $hash = password_hash($password, PASSWORD_ARGON2I, ['memory_cost' => 2048, 'time_cost' => 4, 'threads' => 3]);
 
                 $sql = "INSERT INTO users(`username`, `email`, `password`) VALUES ('".$email."', '".$email."', '".$hash."')";
 
@@ -59,6 +59,51 @@ class UsersController
             }
 
             echo json_encode($submitResponse, JSON_PRETTY_PRINT);
+        }
+        catch(\Exception $e)
+        {
+            var_dump($e);
+            exit;
+        }
+    }
+
+    public function checkForUserByEmail()
+    {
+        try
+        {
+            $this->getHeaders();
+            $submitResponse = null;
+            $email = $_GET['email'] ?? null;
+            $password = $_GET['password'] ?? null;
+
+            if($email)
+            {
+                $sql = "SELECT * FROM users WHERE `email` = '$email'";
+
+                $submitResponse = mysqli_query($this->conn, $sql);
+                if($submitResponse)
+                {
+                    while($row = mysqli_fetch_assoc($submitResponse))
+                    {
+                        // we should only find one user after implementing duplicate detection / avoidance
+                        $usersArray['users'][] = $row;
+                    }
+                }
+                else
+                {
+                    echo "Error ". $sql. "<br/>" . mysqli_error($this->conn);
+                }
+
+                if(password_verify($password, $usersArray['users'][0]['password'])) {
+                    // password validated
+                    $verified = '{"verified": true}';
+                    echo json_encode($verified, JSON_PRETTY_PRINT);
+                    return;
+                }
+            }
+
+            $verified = '{"verified": false}';
+            echo json_encode($verified, JSON_PRETTY_PRINT);
         }
         catch(\Exception $e)
         {
@@ -78,26 +123,32 @@ class UsersController
 
             if($email)
             {
-                // for now, make username the email -- we will probably remove username as I don't plan to use one
-                // this will also give us the chance to write a DB script to bulk edit the table ^.^
-                // don't set id, let it suto-increment
-                //$hash = password_hash('somepassword', PASSWORD_ARGON2I, ['memory_cost' => 2048, 'time_cost' => 4, 'threads' => 3]);
-
-                //$sql = "INSERT INTO users(`username`, `email`, `password`) VALUES ('".$email."', '".$email."', '".$hash."')";
-                $sql = "SELECT `id`, `username`, `email`, `password` FROM `users` WHERE email = '".$email."'";
-                // use argon2id to salt PW
-                // pepper PW ?
+                $sql = "SELECT * FROM users WHERE `email` = '$email'";
 
                 $submitResponse = mysqli_query($this->conn, $sql);
+                if($submitResponse)
+                {
+                    while($row = mysqli_fetch_assoc($submitResponse))
+                    {
+                        // we should only find one user after implementing duplicate detection / avoidance
+                        $usersArray['users'][] = $row;
+                    }
+                }
+                else
+                {
+                    echo "Error ". $sql. "<br/>" . mysqli_error($this->conn);
+                }
 
-                if(password_verify($password, $stored_hash)) {
+                if(password_verify($password, $usersArray['users'][0]['password'])) {
                     // password validated
-                    echo json_encode($submitResponse, JSON_PRETTY_PRINT);
+                    $verified = '{"verified": true}';
+                    echo json_encode($verified, JSON_PRETTY_PRINT);
                     return;
                 }
             }
 
-            echo json_encode($submitResponse, JSON_PRETTY_PRINT);
+            $verified = '{"verified": false}';
+            echo json_encode($verified, JSON_PRETTY_PRINT);
         }
         catch(\Exception $e)
         {
