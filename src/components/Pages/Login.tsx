@@ -20,10 +20,8 @@ export default function Login({theme}: Props) {
     const env = process.env.REACT_APP_STAGE;
     const url = process.env.REACT_APP_URL;
     const certed = process.env.REACT_APP_CERTED;
-    console.log('certed ', certed);
     const protocol = certed === 'false' ? 'http' : 'https';
     const checkUserCredentials = async (email: string, password: string) => {
-
         const res = await fetch(
             `${protocol}://${env}${url}/api/checkUserCredentials?email=${email}&password=${password}`
         );
@@ -75,7 +73,13 @@ export default function Login({theme}: Props) {
 
     const onSubmit = async () => {
         // save user to DB
-        await checkUserCredentials(email, password);
+        const res = await checkUserCredentials(email, password);
+        if(JSON.parse(res).verified){
+            console.log('user verified');
+        }
+        else{
+            console.log('failed to verify');
+        }
     };
 
     // log out function to log the user out of google and set the profile array to null
