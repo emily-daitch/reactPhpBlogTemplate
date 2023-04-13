@@ -74,36 +74,27 @@ class UsersController
             $this->getHeaders();
             $submitResponse = null;
             $email = $_GET['email'] ?? null;
-            $password = $_GET['password'] ?? null;
 
             if($email)
             {
                 $sql = "SELECT * FROM users WHERE `email` = '$email'";
 
                 $submitResponse = mysqli_query($this->conn, $sql);
-                if($submitResponse)
-                {
-                    while($row = mysqli_fetch_assoc($submitResponse))
-                    {
-                        // we should only find one user after implementing duplicate detection / avoidance
-                        $usersArray['users'][] = $row;
-                    }
-                }
-                else
-                {
-                    echo "Error ". $sql. "<br/>" . mysqli_error($this->conn);
-                }
+                $totalMatches = mysqli_num_rows($submitResponse);
 
-                if(password_verify($password, $usersArray['users'][0]['password'])) {
-                    // password validated
-                    $verified = '{"verified": true}';
-                    echo json_encode($verified, JSON_PRETTY_PRINT);
+                if($totalMatches > 0){
+                    $response = '{"response": "existing"}';
+                    echo json_encode($response, JSON_PRETTY_PRINT);
+                    return;
+                } else{
+                    $response = '{"response": "valid"}';
+                    echo json_encode($response, JSON_PRETTY_PRINT);
                     return;
                 }
             }
 
-            $verified = '{"verified": false}';
-            echo json_encode($verified, JSON_PRETTY_PRINT);
+            $response = '{"response": "bad_request"}';
+            echo json_encode($response, JSON_PRETTY_PRINT);
         }
         catch(\Exception $e)
         {
