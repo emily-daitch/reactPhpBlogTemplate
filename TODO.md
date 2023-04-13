@@ -1,5 +1,6 @@
 [ ] Look into a way to avoid passing theme around for light/dark mode<br>
  - context provider?<br>
+
 [ ] cleanup un-needed files from create-react-app<br>
 [ ] make more graphs to visualize Strava data<br>
 [ ] write some tests<br>
