@@ -1,7 +1,7 @@
 {
   "name": "reactPhpBlogTemplate",
   "version": "0.1.0",
-  "homepage": "http://localhost/",
+  "homepage": "http://localhost/reactPhpBlogTemplate/",
   "description": "React/PHP Blog Template",
   "private": true,
   "dependencies": {

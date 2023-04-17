@@ -122,7 +122,7 @@ function App() {
     return (
         <Wrapper test={storedTheme} style={{paddingBottom: 300}}>
             <ChakraProvider>
-                <BrowserRouter>
+                <BrowserRouter basename='/reactPhpBlogTemplate'>
                     <Box  p={4} 
                         bg={ storedTheme === 'light' ? '#333' : '#fff'}
                         borderBottom={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}

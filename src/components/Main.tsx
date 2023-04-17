@@ -73,6 +73,7 @@ export default function Main({theme}: Props) {
     useEffect(() => {        
         const fetchPosts = async (pageSize: string, offset: string) => {
             console.log('fetching with pageSize', pageSize, 'and offset', offset);
+            console.log('fetching with url', `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`);
             const res = await fetch(
                 `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
             );
@@ -109,6 +110,7 @@ export default function Main({theme}: Props) {
                 normalStyles={normalStyles}>
                 <Grid templateColumns='repeat(4, 1fr)' gap={6}>
                     {posts.map(function({id, title, content, image}){
+                        console.log('post id', id);
                         return <PostList key={id} id={id} title={title}
                             image={image} theme={theme}/>;
                     })}
