@@ -22,6 +22,7 @@ export default function Login({theme}: Props) {
     const certed = process.env.REACT_APP_CERTED;
     const protocol = certed === 'false' ? 'http' : 'https';
     const checkUserCredentials = async (email: string, password: string) => {
+        console.log('url is', `${protocol}://${env}${url}/api/checkUserCredentials?email=${email}&password=${password}`);
         const res = await fetch(
             `${protocol}://${env}${url}/api/checkUserCredentials?email=${email}&password=${password}`
         );

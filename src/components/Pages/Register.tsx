@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import { FormControl, Input, Button, useDisclosure } from '@chakra-ui/react';
 import axios from 'axios';
@@ -24,9 +25,9 @@ export default function Register({theme}: Props) {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [ user, setUser ] = useState({} as User);
-    const [ profile, setProfile ] = useState({} as Profile);
     const [error, setError] = useState(false);
     const [showErrorText, setShowErrorText] = useState(false);
+    const [errorText, setErrorText] = useState('Error');
     const ref = useRef<HTMLInputElement>(null);
 
     const initialRef = React.useRef(null);
@@ -37,6 +38,7 @@ export default function Register({theme}: Props) {
     const certed = process.env.REACT_APP_CERTED;
     const protocol = certed === 'false' ? 'http' : 'https';
     const submitNewUser = async (email: string, password: string) => {
+        console.log('submit new user using url', `${protocol}://${env}${url}/api/submitNewUser?email=${email}&password=${password}`);
 
         const res = await fetch(
             `${protocol}://${env}${url}/api/submitNewUser?email=${email}&password=${password}`
@@ -54,52 +56,32 @@ export default function Register({theme}: Props) {
         return await res.json();
     };
 
-    // log out function to log the user out of google and set the profile array to null
-    const logOut = () => {
-        googleLogout();
-        setProfile({} as Profile);
-    };
-
     const onCloseClear = () => {
         onClose();
         setEmail('Email');
         setPassword('Password');
     };
 
-    const login = useGoogleLogin({
+    const register = useGoogleLogin({
         onSuccess: (codeResponse) => setUser(codeResponse),
         onError: (error) => console.log('Login Failed:', error)
     });
 
+    const navigate = useNavigate(); 
     const onSubmit = async () => {
         // save user to DB
         await submitNewUser(email, password);
+        const path = '/registersuccess'; 
+        navigate(path);
     };
-    const onEmailFinal = async (): Promise<boolean> => {
+    const onEmailFinal = async (): Promise<string> => {
+        const valid = validateEmail();
+        if(!valid) return 'invalid';
         const res = JSON.parse(await checkUserByEmail(email));
         console.log('onEmailFinal: ', res);
         console.log('onEmailFinal: ', res.response);
-        return res.response === 'existing';
+        return res.response;
     };
-
-    useEffect(
-        () => {
-            if (user && profile.name) {
-                axios
-                    .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${user.access_token}`, {
-                        headers: {
-                            Authorization: `Bearer ${user.access_token}`,
-                            Accept: 'application/json'
-                        }
-                    })
-                    .then((res) => {
-                        setProfile(res.data);
-                    })
-                    .catch((err: Error) => console.log(err));
-            }
-        },
-        [ user ]
-    );
 
     function style(error: boolean) {
         if (error) {
@@ -110,7 +92,19 @@ export default function Register({theme}: Props) {
     const handleBlur = async () => {
         async function anyNameFunction(): Promise<boolean> {
             const res = await onEmailFinal();
-            return res;
+            switch(res) {
+            case 'existing':
+                setErrorText(`This email already exists as a user. Did you forget your password? Reset it here.
+                     Otherwise, you may have used google to authenticate in the past and can use this to sign in (above).`);
+                return true;
+            case 'invalid':
+                setErrorText('Please enter a vlid email');
+                return true;
+            case 'valid':
+                return false;
+            default:
+                return false;
+            }
         }
 
         const res: boolean = await anyNameFunction();
@@ -141,65 +135,59 @@ export default function Register({theme}: Props) {
         }
     };
 
+    function validateEmail() 
+    {
+        return /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email);
+    }
+
     return(
         <>
             <h2>Register</h2>
             <div style={styleColor}>
                 <br/>
                 <div>
-                    <h2>React Google Login</h2>
                     <br />
-                    <br />
-                    {profile.name ? (
-                        <div>
-                            <div style={{justifyContent: 'center', display: 'flex'}}><img src={profile.picture} alt="user image" /></div>
-                            <h3>User Logged in</h3>
-                            <p>Name: {profile.name}</p>
-                            <p>Email Address: {profile.email}</p>
-                            <br />
-                            <br />
-                            <button onClick={logOut}>Log out</button>
-                        </div>
-                    ) : (
-                        <>
-                            <button onClick={() => login()}>Sign in with Google 🚀 </button>
-                            <FormControl mt={4}>
-                                <Input placeholder='Email'
-                                    ref={ref}
-                                    color={color}
-                                    style={style(error)}
-                                    onBlur={async() => handleBlur()}
-                                    onChange={handleChange}
-                                    onFocus={handleFocus}
-                                />
-                            </FormControl>
-                            {showErrorText && (
-                                <p role="alert" style={{ color: 'rgb(255, 0, 0)' }}>
-                                This email already exists as a user. Did you forget your password? Reset it here. Otherwise, you may have used google to authenticate in the past and can use this to sign in (above).
-                                </p>
-                            )}
-                            <FormControl mt={4}>
-                                <Input placeholder='Password'
-                                    ref={initialRef}
-                                    color={color}
-                                    onChange={(e)=> setPassword(e.target.value)}
-                                />
-                            </FormControl>
-                            <Button bg={color}
-                                color={textColor} 
-                                onClick={onSubmit}
-                                marginRight={6}
-                                marginTop={6}>
-                                    Submit
-                            </Button>
-                            <Button bg={color}
-                                color={textColor} 
-                                onClick={onCloseClear}
-                                marginTop={6}>
-                                    Clear
-                            </Button>
-                        </>
-                    )}
+                    <>
+                        <button onClick={() => register()}>Click here to register with Google 🚀 </button>
+                        <br />
+                        <br />
+                        <p>Or, register with your email below.</p>
+                        <FormControl mt={4}>
+                            <Input placeholder='Email'
+                                ref={ref}
+                                color={color}
+                                style={style(error)}
+                                onBlur={async() => handleBlur()}
+                                onChange={handleChange}
+                                onFocus={handleFocus}
+                            />
+                        </FormControl>
+                        {showErrorText && (
+                            <p role="alert" style={{ color: 'rgb(255, 0, 0)' }}>
+                                {errorText}
+                            </p>
+                        )}
+                        <FormControl mt={4}>
+                            <Input placeholder='Password'
+                                ref={initialRef}
+                                color={color}
+                                onChange={(e)=> setPassword(e.target.value)}
+                            />
+                        </FormControl>
+                        <Button bg={color}
+                            color={textColor} 
+                            onClick={onSubmit}
+                            marginRight={6}
+                            marginTop={6}>
+                                Submit
+                        </Button>
+                        <Button bg={color}
+                            color={textColor} 
+                            onClick={onCloseClear}
+                            marginTop={6}>
+                                Clear
+                        </Button>
+                    </>
                 </div>
             </div>
         </>

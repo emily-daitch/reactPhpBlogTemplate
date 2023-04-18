@@ -8,6 +8,7 @@ import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
 import Login from './components/Pages/Login';
 import Register from './components/Pages/Register';
+import RegisterSuccess from './components/Pages/RegisterSuccess';
 import Preferences from './components/Pages/Preferences';
 import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
@@ -165,17 +166,17 @@ function App() {
                                         <MenuList
                                             color={storedTheme === 'light' ? '#fff' : '#333'}
                                             bg={storedTheme === 'light' ? '#222' : '#eee'}>
-                                            <MenuItem as="a" href="/register"
+                                            <MenuItem as="a" href="/reactPhpBlogTemplate/register"
                                                 color={storedTheme === 'light' ? '#fff' : '#333'}
                                                 bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Register
                                             </MenuItem>
-                                            <MenuItem as="a" href="/login"
+                                            <MenuItem as="a" href="/reactPhpBlogTemplate/login"
                                                 color={storedTheme === 'light' ? '#fff' : '#333'}
                                                 bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Login
                                             </MenuItem>
-                                            <MenuItem as="a" href="/preferences"
+                                            <MenuItem as="a" href="/reactPhpBlogTemplate/preferences"
                                                 color={storedTheme === 'light' ? '#fff' : '#333'}
                                                 bg={storedTheme === 'light' ? '#222' : '#eee'}>
                                                 Preferences
@@ -245,6 +246,7 @@ function App() {
                                 <Route path="/calendar" element={<Calendar theme={storedTheme}/>}/>
                                 <Route path="/login" element={<Login theme={storedTheme}/>}/>
                                 <Route path="/register" element={<Register theme={storedTheme}/>}/>
+                                <Route path="/registersuccess" element={<RegisterSuccess theme={storedTheme}/>}/>
                                 <Route path="/preferences" element={<Preferences theme={storedTheme}/>}/>
                                 <Route path=":slug" element={<SinglePost theme={storedTheme}/>}/>
                                 <Route path="/404" element={<NotFound/>}/>

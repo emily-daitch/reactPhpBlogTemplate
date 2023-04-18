@@ -24,6 +24,7 @@ $urls = [
     '/reactPhpBlogTemplate/api/submitNewUser' => ['UsersController@submitNewUser'],
     '/reactPhpBlogTemplate/api/checkUserCredentials' => ['UsersController@checkUserCredentials'],
     '/reactPhpBlogTemplate/api/checkForUserByEmail' => ['UsersController@checkForUserByEmail'],
+    '/reactPhpBlogTemplate/api/getUsersFromDatabase' => ['UsersController@getUsersFromDatabase'],
 ];
 
 $availableRoutes = array_keys($urls);

@@ -1,7 +1,7 @@
 {
   "name": "reactPhpBlogTemplate",
   "version": "0.1.0",
-  "homepage": "http://localhost/reactPhpBlogTemplate/",
+  "homepage": "http://localhost/reactPhpBlogTemplate",
   "description": "React/PHP Blog Template",
   "private": true,
   "dependencies": {
@@ -29,6 +29,7 @@
     "html-react-parser": "^3.0.15",
     "moment": "^2.29.4",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.2",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
     "react-router-dom": "^6.9.0",

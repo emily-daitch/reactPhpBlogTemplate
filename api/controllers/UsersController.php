@@ -1,14 +1,15 @@
 <?php
+//declare(strict_types=1);
 namespace Api\Controllers;
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-//declare(strict_types=1);
-//use Firebase\JWT\JWT;
-require_once(__ROOT__.'api/controllers/vendor/autoload.php');
+use Firebase\JWT\JWT;
+require_once(__ROOT__.'/vendor/autoload.php');
 
 //define('__ROOT__', dirname(dirname(dirname(__FILE__))));
 require_once(__ROOT__.'/api/services/DB.php');
 use Services\DB;
+use DateTimeImmutable;
 class UsersController
 {
     public $conn = null;
@@ -51,7 +52,7 @@ class UsersController
                 // for now, make username the email -- we will probably remove username as I don't plan to use one
                 // this will also give us the chance to write a DB script to bulk edit the table ^.^
                 // don't set id, let it suto-increment
-                $hash = password_hash($password, PASSWORD_ARGON2I, ['memory_cost' => 2048, 'time_cost' => 4, 'threads' => 3]);
+                $hash = password_hash($password, PASSWORD_DEFAULT, ['memory_cost' => 2048, 'time_cost' => 4, 'threads' => 3]);
 
                 $sql = "INSERT INTO users(`username`, `email`, `password`) VALUES ('".$email."', '".$email."', '".$hash."')";
 
@@ -188,12 +189,12 @@ class UsersController
 
                 if(password_verify($password, $usersArray['users'][0]['password'])) {
                     // password validated
-                    $jwt = '';
-                    // JWT::encode(
-                    //              $request_data,
-                    //              $secret_Key,
-                    //              'HS512'
-                    //          );
+                    //$jwt = '';
+                    $jwt = JWT::encode(
+                                 $request_data,
+                                 $secret_Key,
+                                 'HS512'
+                             );
                     // $response = "{
                     //     "verified": true,
                     //     "jwt": $jwt
