@@ -32,9 +32,9 @@ export const getActivities = async ():Promise<[SummaryActivity]> => {
     const before = {};
     const after = 1672531200;
     const page = {};
-    const per_page = {};
+    const per_page = 50;
     
-    const activities_url = `https://www.strava.com/api/v3/athlete/activities?access_token=${id.access_token}&after=${after}`;
+    const activities_url = `https://www.strava.com/api/v3/athlete/activities?access_token=${id.access_token}&after=${after}&per_page=${per_page}`;
     const activities = await fetch(activities_url);
     const data = await activities.json();
     console.log('data: ', data);
