@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Paginator, Container, PageGroup, usePaginator } from 'chakra-paginator';
 import PostList from './blogComponents/PostList';
-import { Grid, Link } from '@chakra-ui/react';
+import { SimpleGrid, Link, Flex } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 type ChildrenProp = {
@@ -20,9 +20,16 @@ type Props = {
     theme: string
 }
 
+type Post = {
+    id: string,
+    title: string,
+    content: string,
+    image: string
+}
+
 export default function Main({theme}: Props) {
-    const [postsTotal, setPostsTotal] = useState(undefined);
-    const [posts, setPosts] = useState([]);
+    const [postsTotal, setPostsTotal] = useState(0);
+    const [posts, setPosts] = useState([] as Post[]);
 
     console.log('theme from main', theme);
 
@@ -67,11 +74,27 @@ export default function Main({theme}: Props) {
     const env = process.env.REACT_APP_STAGE;
     const url = process.env.REACT_APP_URL;
     const certed = process.env.REACT_APP_CERTED;
+    const fakeDB = process.env.REACT_APP_FAKE_DB;
     console.log('certed ', certed);
     const protocol = certed === 'false' ? 'http' : 'https';
 
     useEffect(() => {        
         const fetchPosts = async (pageSize: string, offset: string) => {
+            console.log('fakeDB', fakeDB);
+            if(fakeDB){
+                setPostsTotal(Number(pageSize));
+                const posts: Post[] = [];
+                for(let i = 0; i < Number(pageSize); i++){
+                    posts.push({
+                        id: i.toString(),
+                        title: `title${i}`,
+                        content: 'content',
+                        image: 'https://ik.imagekit.io/emilydaitch/Test2.jpg?updatedAt=1680724497500' //replace with publicly available image (that I am not hosting)
+                    });
+                }
+                setPosts(posts);
+                return;
+            }
             console.log('fetching with pageSize', pageSize, 'and offset', offset);
             const res = await fetch(
                 `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
