@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SummaryActivity, DateDistance } from '../../types/strava';
 import { getActivities } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
-import { Grid } from '@chakra-ui/react';
+import { Grid, Container } from '@chakra-ui/react';
 import { VictoryBar, VictoryLegend, VictoryStack, VictoryChart, VictoryAxis, VictoryTheme, VictoryContainer, VictoryLabel } from 'victory';
 import moment from 'moment';
 
@@ -162,7 +162,7 @@ export default function Strava({theme}: Props) {
     console.log('walkData', walkData);
     console.log('bikeData', bikeData);
     
-    const padding = { top: 70, bottom: 100, left: 80, right: 10 };
+    const padding = { top: 70, bottom: 100, left: 80, right: 40 };
 
     const exampleMapItem = stravaData.find(x => x?.id === 8809747810);
     console.log('exampleMapItem', exampleMapItem);
@@ -172,86 +172,84 @@ export default function Strava({theme}: Props) {
             See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'teal'}} target="_blank" rel="noopener noreferrer">here</Link>.
             <br/><br/>
             Last Week of Activity:
-            <Grid templateColumns='repeat(2, 1fr)' gap={6} justifyContent={'center'} display={'flex'}>
-                <VictoryChart height={600} 
-                    width={600}
-                    containerComponent={<VictoryContainer responsive={false} style={{margin: 'auto'}}/>}
-                    padding={padding}
-                    // domainPadding will add space to each side of VictoryBar to
-                    // prevent it from overlapping the axis
-                    theme={VictoryTheme.material}
-                    domainPadding={20}
+            <Container maxW={'800px'}><VictoryChart
+                containerComponent={<VictoryContainer responsive={true} style={{margin: 'auto'}}/>}
+                padding={padding}
+                // domainPadding will add space to each side of VictoryBar to
+                // prevent it from overlapping the axis
+                theme={VictoryTheme.material}
+                domainPadding={20}
+            >
+                <VictoryLegend
+                    x={80}
+                    title="Legend"
+                    centerTitle
+                    orientation="horizontal"
+                    gutter={20}
+                    style={{ border: { stroke: 'black' }, title: {fontSize: 10 } }}
+                    data={[
+                        { name: 'Runs', symbol: { fill: 'tomato' } },
+                        { name: 'Walks', symbol: { fill: 'orange' } },
+                        { name: 'Bikes', symbol: { fill: 'gold' }}
+                    ]}
+                />
+                <VictoryStack
+                    colorScale={['gold', 'tomato', 'orange']}
                 >
-                    <VictoryLegend x={0} y={0}
-                        width={200}
-                        title="Legend"
-                        centerTitle
-                        orientation="horizontal"
-                        gutter={20}
-                        style={{ border: { stroke: 'black' }, title: {fontSize: 20 } }}
-                        data={[
-                            { name: 'Runs', symbol: { fill: 'tomato' } },
-                            { name: 'Walks', symbol: { fill: 'orange' } },
-                            { name: 'Bikes', symbol: { fill: 'gold' }}
-                        ]}
+                    <VictoryBar
+                        data={bikeGraphData}
+                        // data accessor for x values
+                        x="start_date"
+                        // data accessor for y values
+                        y="distance"
                     />
-                    <VictoryStack
-                        colorScale={['gold', 'tomato', 'orange']}
-                    >
-                        <VictoryBar
-                            data={bikeGraphData}
-                            // data accessor for x values
-                            x="start_date"
-                            // data accessor for y values
-                            y="distance"
-                        />
-                        <VictoryBar
-                            data={walkGraphData}
-                            // data accessor for x values
-                            x="start_date"
-                            // data accessor for y values
-                            y="distance"
-                        />
-                        <VictoryBar
-                            data={runGraphData}
-                            // data accessor for x values
-                            x="start_date"
-                            // data accessor for y values
-                            y="distance"
-                        />
-                    </VictoryStack>
-                    <VictoryAxis
-                        // tickValues specifies both the number of ticks and where
-                        // they are placed on the axis
-                        scale='time'
-                        tickValues={formattedDates}
-                        // tickFormat={(x) => (`${()}`)}
-                        fixLabelOverlap
-                        axisLabelComponent={<VictoryLabel dy={25} />}
-                        label={'Last seven days of activity'}
+                    <VictoryBar
+                        data={walkGraphData}
+                        // data accessor for x values
+                        x="start_date"
+                        // data accessor for y values
+                        y="distance"
                     />
-                    <VictoryAxis
-                        dependentAxis
-                        // tickFormat specifies how ticks should be displayed
-                        tickFormat={(x) => (`${(x).toFixed(1)} mi`)}
+                    <VictoryBar
+                        data={runGraphData}
+                        // data accessor for x values
+                        x="start_date"
+                        // data accessor for y values
+                        y="distance"
                     />
-                </VictoryChart>
-                <p style={{alignItems: 'center', display: 'flex'}}>Totals for the past week:<br/>
-                        Total miles walked: {walkData.reduce(
-                        (accumulator, currentValue) => accumulator + currentValue.distance,
-                        0).toFixed(1)} mi.<br/>
-                        Total miles ran: {runData.reduce(
-                        (accumulator, currentValue) => accumulator + currentValue.distance,
-                        0).toFixed(1)} mi.<br/>
-                        Total miles biked: {bikeData.reduce(
-                        (accumulator, currentValue) => accumulator + currentValue.distance,
-                        0).toFixed(1)} mi.<br/><br/>
-                        Average speeds for the past week:<br/>
-                        Avg. walking speed: {getAverageSpeed(walkData).toFixed(1)} mi/h.<br/>
-                        Avg. running speed: {getAverageSpeed(runData).toFixed(1)} mi/h.<br/>
-                        Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
-                </p>
-            </Grid>
+                </VictoryStack>
+                <VictoryAxis
+                    // tickValues specifies both the number of ticks and where
+                    // they are placed on the axis
+                    scale='time'
+                    tickValues={formattedDates}
+                    // tickFormat={(x) => (`${()}`)}
+                    fixLabelOverlap
+                    axisLabelComponent={<VictoryLabel dy={25} />}
+                    label={'Last seven days of activity'}
+                />
+                <VictoryAxis
+                    dependentAxis
+                    // tickFormat specifies how ticks should be displayed
+                    tickFormat={(x) => (`${(x).toFixed(1)} mi`)}
+                />
+            </VictoryChart></Container><br/>
+            <p style={{alignItems: 'center', justifyContent: 'center', alignContent: 'center', display: 'flex'}}>
+                Totals for the past week:<br/>
+                Total miles walked: {walkData.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue.distance,
+                    0).toFixed(1)} mi.<br/>
+                Total miles ran: {runData.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue.distance,
+                    0).toFixed(1)} mi.<br/>
+                Total miles biked: {bikeData.reduce(
+                    (accumulator, currentValue) => accumulator + currentValue.distance,
+                    0).toFixed(1)} mi.<br/><br/>
+                Average speeds for the past week:<br/>
+                Avg. walking speed: {getAverageSpeed(walkData).toFixed(1)} mi/h.<br/>
+                Avg. running speed: {getAverageSpeed(runData).toFixed(1)} mi/h.<br/>
+                Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
+            </p><br/>
             <p>Example Google Maps Static API Route Render:</p><br/>
             <div style={{justifyContent: 'center', display: 'flex'}}><img src={imgurl}></img></div>
         </div>
