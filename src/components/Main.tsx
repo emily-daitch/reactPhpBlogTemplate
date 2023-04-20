@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Paginator, Container, PageGroup, usePaginator } from 'chakra-paginator';
 import PostList from './blogComponents/PostList';
-import { SimpleGrid, Link, Flex } from '@chakra-ui/react';
+import { SimpleGrid, Link, Box, Stack } from '@chakra-ui/react';
 import styled from 'styled-components';
 
 type ChildrenProp = {
@@ -119,27 +119,29 @@ export default function Main({theme}: Props) {
     const portfolioUrl = `https://${process.env.REACT_APP_PORTFOLIO_SITE}`;
 
     return (
-        <>
+        <Box>
             <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>YouTube tuorial</Link> by&ensp;
                 <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. It is hosted on an Apache server with Hostinger.</p>
             <p style={color}>For the moment, this is best viewed in Chrome and mobile is not supported, but is in the works!</p>
             <p style={color}>See my main portfolio site <Link href={portfolioUrl} color='teal.500'>here</Link>.</p>
-            <StyledPaginator
-                pagesQuantity={pagesQuantity}
-                currentPage={currentPage}
-                onPageChange={setCurrentPage}
-                activeStyles={activeStyles}
-                normalStyles={normalStyles}>
-                <Grid templateColumns='repeat(4, 1fr)' gap={6}>
-                    {posts.map(function({id, title, content, image}){
-                        return <PostList key={id} id={id} title={title}
-                            image={image} theme={theme}/>;
-                    })}
-                </Grid>
-                <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
-                    <PageGroup isInline align="center"/>
-                </Container>
-            </StyledPaginator>
-        </>
+            <Stack>
+                <StyledPaginator
+                    pagesQuantity={pagesQuantity}
+                    currentPage={currentPage}
+                    onPageChange={setCurrentPage}
+                    activeStyles={activeStyles}
+                    normalStyles={normalStyles}>
+                    <SimpleGrid minChildWidth='300px' gap={6}>
+                        {posts.map(function({id, title, image}){
+                            return <PostList key={id} id={id} title={title}
+                                image={image} theme={theme}/>;
+                        })}
+                    </SimpleGrid>
+                    <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
+                        <PageGroup isInline align="center"/>
+                    </Container>
+                </StyledPaginator>
+            </Stack>
+        </Box>
     );
 }
