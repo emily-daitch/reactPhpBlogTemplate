@@ -116,7 +116,7 @@ function App() {
     }
 
     return (
-        <Wrapper test={storedTheme} style={{paddingBottom: 300}}>
+        <Wrapper test={storedTheme}>
             <ChakraProvider>
                 <BrowserRouter>
                     <Box  p={4} 
@@ -205,7 +205,7 @@ function App() {
                     </Modal>
 
                     <div className='App' style={{height:'100%'}}>
-                        <Container maxW="1600px" marginTop={'50px'} height={'100vh'} justifyContent={'center'} alignContent={'center'}>
+                        <Container maxW="1600px" marginTop={'50px'} height={'100%'} justifyContent={'center'} alignContent={'center'}>
                             <Routes>
                                 <Route path="/" element={<Main theme={storedTheme}/>}/>
                                 <Route path="/contact" element={<Contact theme={storedTheme}/>}/>
