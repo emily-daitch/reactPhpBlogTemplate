@@ -80,8 +80,7 @@ export default function Main({theme}: Props) {
 
     useEffect(() => {        
         const fetchPosts = async (pageSize: string, offset: string) => {
-            console.log('fakeDB', fakeDB);
-            if(fakeDB){
+            if(fakeDB === 'true'){
                 setPostsTotal(Number(pageSize));
                 const posts: Post[] = [];
                 for(let i = 0; i < Number(pageSize); i++){
