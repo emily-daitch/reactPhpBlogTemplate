@@ -1,3 +1,5 @@
+**NOTE**: Please use the "live" branch. It has changes that make the site responsive for mobile. They will be integrated into the main branch soon.
+
 Hello. This is a blog website template built with PHP and React. I will explain how to use XAMPP to develop changes locally.
 
 # Setting up for local development
