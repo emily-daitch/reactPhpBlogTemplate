@@ -6,13 +6,13 @@ import Contact from './components/Pages/Contact';
 import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
-import { ChakraProvider, Box, ListItem, UnorderedList, HStack, Spacer,
+import { ChakraProvider, Box, ListItem, UnorderedList, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
-    Input, Flex } from '@chakra-ui/react';
+    Input, Flex, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
-import { MoonIcon, SunIcon, Search2Icon } from '@chakra-ui/icons';
+import { MoonIcon, SunIcon, Search2Icon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Wrapper } from './App.styles';
 
 type SearchResultItem = {
@@ -124,27 +124,43 @@ function App() {
                         borderBottom={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
                         color={ storedTheme === 'light' ? '#fff' : '#333'}>
                         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
-                            <HStack spacing={16} alignItems={'left'}>
-                                <HStack as={'nav'}
-                                    spacing={6} 
-                                    display={{base: 'fake', md: 'flex'}}>
-                                    <Link to="/">
-                            Home
-                                    </Link>
-                                    <Link to="/contact">
-                            Contact
-                                    </Link>
-                                    <Link to="/resume">
-                            Resume
-                                    </Link>
-                                    <Link to="/calendar">
-                            Calendar
-                                    </Link>
-                                    <Link to="/strava">
-                            Strava
-                                    </Link>
-                                </HStack>
-                            </HStack>
+                            <Menu>
+                                <MenuButton as={Button} 
+                                    rightIcon={<ChevronDownIcon />} 
+                                    color={storedTheme === 'light' ? '#fff' : '#333'}
+                                    bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                    Menu
+                                </MenuButton>
+                                <MenuList
+                                    color={storedTheme === 'light' ? '#fff' : '#333'}
+                                    bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                    <MenuItem as="a" href="/"
+                                        color={storedTheme === 'light' ? '#fff' : '#333'}
+                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        Home
+                                    </MenuItem>
+                                    <MenuItem as="a" href="/contact"
+                                        color={storedTheme === 'light' ? '#fff' : '#333'}
+                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        Contact
+                                    </MenuItem>
+                                    <MenuItem as="a" href="/resume"
+                                        color={storedTheme === 'light' ? '#fff' : '#333'}
+                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        Resume
+                                    </MenuItem>
+                                    <MenuItem as="a" href="/calendar"
+                                        color={storedTheme === 'light' ? '#fff' : '#333'}
+                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        Calendar
+                                    </MenuItem>
+                                    <MenuItem as="a" href="/strava"
+                                        color={storedTheme === 'light' ? '#fff' : '#333'}
+                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        Strava
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
                             <Search2Icon onClick={onOpen}>
 
                             </Search2Icon>
