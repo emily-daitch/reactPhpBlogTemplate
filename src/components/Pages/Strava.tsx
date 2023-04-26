@@ -10,6 +10,51 @@ type Props = {
     theme: string
 }
 
+export const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
+    if (exerciseData.length == 0) return 0;
+    const speedTotal = Number(exerciseData.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.average_speed,
+        0));
+    return speedTotal / exerciseData.length;
+};
+
+export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: string[]): DateDistance[][] => {
+    const runData = dailyTotalData[0];
+    const walkData = dailyTotalData[1];
+    const bikeData = dailyTotalData[2];
+    const runGraphData: DateDistance[] = [];
+    const walkGraphData: DateDistance[] = [];
+    const bikeGraphData: DateDistance[] = [];
+    for(const date of dateArray){
+        runGraphData.push({
+            start_date: date,
+            distance: runData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0)
+        });
+        walkGraphData.push({
+            start_date: date,
+            distance: walkData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0)
+        });
+        bikeGraphData.push({
+            start_date: date,
+            distance: bikeData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0)
+        });
+    }
+
+    return [walkGraphData, runGraphData, bikeGraphData];
+};
+
 export default function Strava({theme}: Props) {
     const isLightTheme = theme === 'light';
     const styleColor = isLightTheme ? {color:'#333', margin: 'auto'} : {color:'#fff', margin: 'auto'};
@@ -111,13 +156,6 @@ export default function Strava({theme}: Props) {
         return dateArray.includes(datum.start_date) ? true : false;
     });
 
-    const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
-        const speedTotal = Number(exerciseData.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.average_speed,
-            0));
-        return speedTotal / exerciseData.length;
-    };
-
     const runData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Run' ? true : false;
     });
@@ -127,40 +165,15 @@ export default function Strava({theme}: Props) {
     const bikeData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Ride' ? true : false;
     });
-    const runGraphData: DateDistance[] = [];
-    const walkGraphData: DateDistance[] = [];
-    const bikeGraphData: DateDistance[] = [];
-    for(const date of dateArray){
-        runGraphData.push({
-            start_date: date,
-            distance: runData.filter((datum: SummaryActivity) => {
-                return datum.start_date === date ? true : false;
-            }).reduce(
-                (accumulator, currentValue) => accumulator + currentValue.average_speed,
-                0)
-        });
-        walkGraphData.push({
-            start_date: date,
-            distance: walkData.filter((datum: SummaryActivity) => {
-                return datum.start_date === date ? true : false;
-            }).reduce(
-                (accumulator, currentValue) => accumulator + currentValue.average_speed,
-                0)
-        });
-        bikeGraphData.push({
-            start_date: date,
-            distance: bikeData.filter((datum: SummaryActivity) => {
-                return datum.start_date === date ? true : false;
-            }).reduce(
-                (accumulator, currentValue) => accumulator + currentValue.average_speed,
-                0)
-        });
-    }
+
+    const dailyTotalData = [walkData, runData, bikeData];
+
+    const dd: DateDistance[][] = getDailyTotals(dailyTotalData, dateArray);
+    const walkGraphData = dd[0];
+    const runGraphData = dd[1];
+    const bikeGraphData = dd[2];
 
     console.log('parsedStravaData', stravaData);
-    console.log('runData', runData);
-    console.log('walkData', walkData);
-    console.log('bikeData', bikeData);
     
     const padding = { top: 70, bottom: 100, left: 80, right: 40 };
 
@@ -194,7 +207,7 @@ export default function Strava({theme}: Props) {
                     ]}
                 />
                 <VictoryStack
-                    colorScale={['gold', 'tomato', 'orange']}
+                    colorScale={['gold', 'orange', 'tomato']}
                 >
                     <VictoryBar
                         data={bikeGraphData}
