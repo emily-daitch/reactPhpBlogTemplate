@@ -119,9 +119,20 @@ export default function Main({theme}: Props) {
 
     return (
         <Box>
-            <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>YouTube tuorial</Link> by&ensp;
-                <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. It is hosted on an Apache server with Hostinger.</p>
-            <p style={color}>For the moment, this is best viewed in Chrome and mobile is not supported, but is in the works!</p>
+            <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>
+                YouTube tuorial</Link> by&ensp;
+            <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. 
+                It is hosted on an Apache server with Hostinger.</p>
+            <p style={color}>This site was built with React and the help of 
+                <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwil6OHhisr-AhXTmWoFHYjxC44QFnoECAYQAQ&url=https%3A%2F%2Fchakra-ui.com%2F&usg=AOvVaw0i-kTFZCUJSLSin1koRPjM' color='teal.500'> Chakra UI</Link>.</p><br/>
+            <p style={color}>You can find a guide to setting up your own project and hosting on the github 
+                <Link href='https://github.com/emily-daitch/reactPhpBlogTemplate#readme' color='teal.500'> README</Link>.</p>
+            <p style={color}>The test posts you see exist so that enough content is here to demo the pagination on the home page.</p><br/>
+            <p style={color}>So far this site has support for the main blog post listing, a Resume page to provide a link for viewing 
+            and downloading of your Resume, a Contact page to provide links to your profiles, a Calendar page to provide an embedded calendar 
+            and a link to schedule a meeting, and for fun I&apos;ve added an optional Strava page that serves as an example for presenting data from an 
+            <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjak4qPi8r-AhVYl2oFHRELCgYQFnoECA4QAQ&url=https%3A%2F%2Fdevelopers.strava.com%2Fdocs%2Freference%2F&usg=AOvVaw37v0Hj5zshRfj8faNnQ5Dm' color='teal.500'> external Strava API</Link> using 
+            <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj425Luisr-AhVolmoFHU26C84QFnoECBEQAQ&url=https%3A%2F%2Fformidable.com%2Fopen-source%2Fvictory%2Fdocs%2Fvictory-chart%2F&usg=AOvVaw1hYIMHOQahlQjkYpZMROzi' color='teal.500'> Victory charts</Link>.</p><br/>
             <p style={color}>See my main portfolio site <Link href={portfolioUrl} color='teal.500'>here</Link>.</p>
             <Stack>
                 <StyledPaginator
