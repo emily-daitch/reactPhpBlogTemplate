@@ -1,4 +1,6 @@
 Hello. This is a blog website template built with PHP and React. I will explain how to use XAMPP to develop changes locally.
+See my implementation: https://emilydaitch.click/
+I recommend using a staging subdomain to test your changes before letting them "go live", like I have done here: https://staging.emilydaitch.click/
 
 # Setting up for local development
 
