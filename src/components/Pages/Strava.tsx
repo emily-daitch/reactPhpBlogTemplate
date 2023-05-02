@@ -19,24 +19,24 @@ export const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
 };
 
 export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: string[]): DateDistance[][] => {
-    const runData = dailyTotalData[0];
-    const walkData = dailyTotalData[1];
+    const walkData = dailyTotalData[0];
+    const runData = dailyTotalData[1];
     const bikeData = dailyTotalData[2];
-    const runGraphData: DateDistance[] = [];
     const walkGraphData: DateDistance[] = [];
+    const runGraphData: DateDistance[] = [];
     const bikeGraphData: DateDistance[] = [];
     for(const date of dateArray){
-        runGraphData.push({
+        walkGraphData.push({
             start_date: date,
-            distance: runData.filter((datum: SummaryActivity) => {
+            distance: walkData.filter((datum: SummaryActivity) => {
                 return datum.start_date === date ? true : false;
             }).reduce(
                 (accumulator, currentValue) => accumulator + currentValue.distance,
                 0)
         });
-        walkGraphData.push({
+        runGraphData.push({
             start_date: date,
-            distance: walkData.filter((datum: SummaryActivity) => {
+            distance: runData.filter((datum: SummaryActivity) => {
                 return datum.start_date === date ? true : false;
             }).reduce(
                 (accumulator, currentValue) => accumulator + currentValue.distance,
@@ -137,13 +137,15 @@ export default function Strava({theme}: Props) {
     }
 
     const dateArray = [
-        new Date(Date.now()).toISOString().slice(0,10),
-        new Date(Date.now() - (60*60*24*1000)).toISOString().slice(0,10),
+        // new Date(Date.now()).toISOString().slice(0,10),
+        // new Date(Date.now() - (60*60*24*1000)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*2)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*3)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*4)).toISOString().slice(0,10),
         new Date(Date.now() - (60*60*24*1000*5)).toISOString().slice(0,10),
-        new Date(Date.now() - (60*60*24*1000*6)).toISOString().slice(0,10)
+        new Date(Date.now() - (60*60*24*1000*6)).toISOString().slice(0,10),
+        new Date(Date.now() - (60*60*24*1000*7)).toISOString().slice(0,10),
+        new Date(Date.now() - (60*60*24*1000*8)).toISOString().slice(0,10)
     ];
     
     const formattedDates = dateArray.map(date => moment(date, 'YYYY-MM-DD').toDate());
@@ -156,11 +158,11 @@ export default function Strava({theme}: Props) {
         return dateArray.includes(datum.start_date) ? true : false;
     });
 
-    const runData = parsedStravaData.filter((datum: SummaryActivity) => {
-        return datum.sport_type === 'Run' ? true : false;
-    });
     const walkData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Walk' ? true : false;
+    });
+    const runData = parsedStravaData.filter((datum: SummaryActivity) => {
+        return datum.sport_type === 'Run' ? true : false;
     });
     const bikeData = parsedStravaData.filter((datum: SummaryActivity) => {
         return datum.sport_type === 'Ride' ? true : false;
@@ -201,21 +203,14 @@ export default function Strava({theme}: Props) {
                     gutter={20}
                     style={{ border: { stroke: 'black' }, title: {fontSize: 10 } }}
                     data={[
-                        { name: 'Runs', symbol: { fill: 'tomato' } },
-                        { name: 'Walks', symbol: { fill: 'orange' } },
+                        { name: 'Walks', symbol: { fill: 'tomato' } },
+                        { name: 'Runs', symbol: { fill: 'orange' } },
                         { name: 'Bikes', symbol: { fill: 'gold' }}
                     ]}
                 />
                 <VictoryStack
-                    colorScale={['gold', 'orange', 'tomato']}
+                    colorScale={['tomato', 'orange', 'gold']}
                 >
-                    <VictoryBar
-                        data={bikeGraphData}
-                        // data accessor for x values
-                        x="start_date"
-                        // data accessor for y values
-                        y="distance"
-                    />
                     <VictoryBar
                         data={walkGraphData}
                         // data accessor for x values
@@ -225,6 +220,13 @@ export default function Strava({theme}: Props) {
                     />
                     <VictoryBar
                         data={runGraphData}
+                        // data accessor for x values
+                        x="start_date"
+                        // data accessor for y values
+                        y="distance"
+                    />
+                    <VictoryBar
+                        data={bikeGraphData}
                         // data accessor for x values
                         x="start_date"
                         // data accessor for y values
