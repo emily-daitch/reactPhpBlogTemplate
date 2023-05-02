@@ -179,7 +179,7 @@ export default function Strava({theme}: Props) {
     
     const padding = { top: 70, bottom: 100, left: 80, right: 40 };
 
-    const exampleMapItem = stravaData.find(x => x?.id === 8809747810);
+    const exampleMapItem = stravaData.find(x => x?.id === 8839250323);
     console.log('exampleMapItem', exampleMapItem);
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
