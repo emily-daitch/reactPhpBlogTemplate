@@ -27,12 +27,11 @@ export const getActivities = async ():Promise<[SummaryActivity]> => {
         }
     );
     const id = await res.json();
-    console.log('id: ', id);
-    console.log('get activities');
+    const lastMonth = new Date(Date.now() - (30*60*60*24*1000));
     const before = {};
-    const after = 1672531200;
+    const after = lastMonth.getTime() / 1000; // after takes seconds, not milliseconds
     const page = {};
-    const per_page = 50;
+    const per_page = 60; // enough for 2 activities a day
     
     const activities_url = `https://www.strava.com/api/v3/athlete/activities?access_token=${id.access_token}&after=${after}&per_page=${per_page}`;
     const activities = await fetch(activities_url);
