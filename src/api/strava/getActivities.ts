@@ -14,7 +14,6 @@ const payload = {
 };
 
 export const getActivities = async ():Promise<[SummaryActivity]> => {
-    console.log('payload', payload);
     const res = await fetch(
         auth_url,
         {
@@ -39,3 +38,26 @@ export const getActivities = async ():Promise<[SummaryActivity]> => {
     console.log('data: ', data);
     return data;
 }; 
+
+export const getMapActivity = async ():Promise<SummaryActivity> => {
+    const MAP_ACTIVITY_ID = 8839250323;
+    const res = await fetch(
+        auth_url,
+        {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }
+    );
+    const id = await res.json();
+    
+    console.log('attttt', id.access_token);
+    const activities_url = `https://www.strava.com/api/v3/activities/${MAP_ACTIVITY_ID}?access_token=${id.access_token}`;
+    const activities = await fetch(activities_url);
+    const data = await activities.json();
+    console.log('map data: ', data);
+    return data;
+};

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { SummaryActivity, DateDistance } from '../../types/strava';
-import { getActivities } from 'src/api/strava/getActivities';
+import { getActivities, getMapActivity } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
 import { Grid, Container } from '@chakra-ui/react';
 import { VictoryBar, VictoryLegend, VictoryStack, VictoryChart, VictoryAxis, VictoryTheme, VictoryContainer, VictoryLabel } from 'victory';
 import moment from 'moment';
+import { summaryActivity } from '../../data/summaryActivity';
 
 type Props = {
     theme: string
@@ -60,67 +61,17 @@ export default function Strava({theme}: Props) {
     const styleColor = isLightTheme ? {color:'#333', margin: 'auto'} : {color:'#fff', margin: 'auto'};
     const google_maps_token = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
-    const [stravaData, setStravaData] = useState([{
-        'name' : 'Happy Friday',
-        'distance' : 24931.4,
-        'moving_time' : 4500,
-        'elapsed_time' : 4500,
-        'total_elevation_gain' : 0,
-        'type' : 'Ride',
-        'sport_type' : 'MountainBikeRide',
-        'workout_type' : null,
-        'id' : 154504250376823,
-        'external_id' : 'garmin_push_12345678987654321',
-        'upload_id' : 9876543,
-        'start_date' : '2018-05-02T12:15:09Z',
-        'start_date_local' : '2018-05-02T05:15:09Z',
-        'timezone' : '(GMT-08:00) America/Los_Angeles',
-        'utc_offset' : -25200,
-        'start_latlng' : null,
-        'end_latlng' : null,
-        'location_city' : null,
-        'location_state' : null,
-        'location_country' : 'United States',
-        'achievement_count' : 0,
-        'kudos_count' : 3,
-        'comment_count' : 1,
-        'athlete_count' : 1,
-        'photo_count' : 0,
-        'map' : {
-            'id' : 'a12345678987654321',
-            'summary_polyline' : null,
-            'resource_state' : 2
-        },
-        'trainer' : true,
-        'commute' : false,
-        'manual' : false,
-        'private' : false,
-        'flagged' : false,
-        'gear_id' : 'b12345678987654321',
-        'from_accepted_tag' : false,
-        'average_speed' : 5.54,
-        'max_speed' : 11,
-        'average_cadence' : 67.1,
-        'average_watts' : 175.3,
-        'weighted_average_watts' : 210,
-        'kilojoules' : 788.7,
-        'device_watts' : true,
-        'has_heartrate' : true,
-        'average_heartrate' : 140.3,
-        'max_heartrate' : 178,
-        'max_watts' : 406,
-        'pr_count' : 0,
-        'total_photo_count' : 1,
-        'has_kudoed' : false,
-        'suffer_score' : 82
-    } as SummaryActivity]);
+    const [mapData, setMapData] = useState(summaryActivity as SummaryActivity);
+    const [stravaData, setStravaData] = useState([summaryActivity as SummaryActivity]);
     const [stravaError, setStravaError] = useState(null);
     const [stravaLoading, setStravaLoading] = useState(true);
     async function getA() {
         try {
             setStravaLoading(true);
             const stravaData = await getActivities();
+            const mapData = await getMapActivity();
             setStravaData(stravaData);
+            setMapData(mapData);
         } catch (e: any) {
             setStravaError(e);
         } finally {
@@ -179,9 +130,7 @@ export default function Strava({theme}: Props) {
     
     const padding = { top: 70, bottom: 100, left: 80, right: 40 };
 
-    const exampleMapItem = stravaData.find(x => x?.id === 8839250323);
-    console.log('exampleMapItem', exampleMapItem);
-    const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${exampleMapItem?.map.summary_polyline}&key=${google_maps_token}`;
+    const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
         <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
             See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'teal'}} target="_blank" rel="noopener noreferrer">here</Link>.
