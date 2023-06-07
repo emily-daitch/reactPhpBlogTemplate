@@ -37,6 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "start:dev": "env-cmd -f .dev.env npm start",
+    "start:beta": "env-cmd -f .staging.env npm start",
+    "build:dev": "env-cmd -f .dev.env npm run build",
     "build:beta": "env-cmd -f .staging.env npm run build",
     "lint": "eslint src/**/*.js src/**/*.tsx",
     "lint:fix": "eslint src/**/*.js src/**/*.tsx --fix"
