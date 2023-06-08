@@ -5,6 +5,7 @@
   "description": "React/PHP Blog Template",
   "private": true,
   "dependencies": {
+    "@canvasjs/react-charts": "^1.0.0",
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.4",
     "@emotion/react": "^11.10.6",
@@ -62,6 +63,7 @@
     ]
   },
   "devDependencies": {
+    "@types/canvasjs": "^1.9.8",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.57.0",
     "@typescript-eslint/parser": "^5.57.0",
