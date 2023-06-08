@@ -11,6 +11,7 @@ import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
 import SinglePost from './components/blogComponents/SinglePost';
 import NotFound from './components/blogComponents/NotFound';
+import { useLocalStorage } from './utils/useLocalStorage';
 
 import { ChakraProvider, Box, ListItem, UnorderedList, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
@@ -25,10 +26,12 @@ type SearchResultItem = {
 
 function App() {
     const [storedTheme, setStoredTheme] = useLocalStorage('theme', 'dark');
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [searchResultItems, setSearchResultItems] = useState([]);
     const [isSwitchOn, setIsSwitchOn] = useState(storedTheme === 'dark' ? true : false);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+
     const initialRef = React.useRef(null);
 
     const onCloseClear = () => {
@@ -36,15 +39,14 @@ function App() {
         setSearchResultItems([]);
     };
 
-    const env = process.env.REACT_APP_STAGE;
-    const url = process.env.REACT_APP_URL;
-    const certed = process.env.REACT_APP_CERTED;
-    console.log('certed ', certed);
-    const protocol = certed === 'false' ? 'http' : 'https';
-
     useEffect(() => {
+        const env = process.env.REACT_APP_STAGE;
+        const url = process.env.REACT_APP_URL;
+        const certed = process.env.REACT_APP_CERTED;
+        const protocol = certed === 'false' ? 'http' : 'https';
+        
         const fetchSearchResults = async (searchTerm: string) => {
-            console.log('fetching with search term', searchTerm);
+
             const res = await fetch(
                 `${protocol}://${url}/api/searchResults?keyword=${searchTerm}`
             );
@@ -61,47 +63,7 @@ function App() {
         }, 100);
 
         return () =>clearTimeout(getUsersInput);
-    }, [searchTerm, env]);
-
-    // Hook
-    function useLocalStorage(key: string, initialValue: string) {
-        // State to store our value
-        // Pass initial state function to useState so logic is only executed once
-        const [storedValue, setStoredValue] = useState(() => {
-            if (typeof window === 'undefined') {
-                return initialValue;
-            }
-            try {
-                // Get from local storage by key
-                const item = window.localStorage.getItem(key);
-                // Parse stored json or if none return initialValue
-                return item ? JSON.parse(item) : initialValue;
-            } catch (error) {
-                // If error also return initialValue
-                console.log(error);
-                return initialValue;
-            }
-        });
-        // Return a wrapped version of useState's setter function that ...
-        // ... persists the new value to localStorage.
-        const setValue = (value: any) => {
-            try {
-                // Allow value to be a function so we have same API as useState
-                const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-                // Save state
-                setStoredValue(valueToStore);
-                // Save to local storage
-                if (typeof window !== 'undefined') {
-                    window.localStorage.setItem(key, JSON.stringify(valueToStore));
-                }
-            } catch (error) {
-                // A more advanced implementation would handle the error case
-                console.log(error);
-            }
-        };
-        return [storedValue, setValue];
-    }
+    }, [searchTerm]);
 
     const changeThemeSwitch = () => {
         let newValue = null;
