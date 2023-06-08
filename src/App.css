@@ -3,6 +3,18 @@
   height: 100vh;
 }
 
+ul{
+  text-align: left;
+  list-style-position: inside;
+}
+
+.List{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 30px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
