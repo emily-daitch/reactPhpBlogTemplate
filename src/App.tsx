@@ -1,19 +1,22 @@
-import SinglePost from './components/blogComponents/SinglePost';
-import NotFound from './components/blogComponents/NotFound';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+
 import './App.css';
+import { Wrapper } from './App.styles';
+
 import Main from './components/Main';
 import Contact from './components/Pages/Contact';
 import Strava from './components/Pages/Strava';
 import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
+import SinglePost from './components/blogComponents/SinglePost';
+import NotFound from './components/blogComponents/NotFound';
+
 import { ChakraProvider, Box, ListItem, UnorderedList, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
     Input, Flex, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react';
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { MoonIcon, SunIcon, Search2Icon, ChevronDownIcon } from '@chakra-ui/icons';
-import { Wrapper } from './App.styles';
 
 type SearchResultItem = {
   id: string,
