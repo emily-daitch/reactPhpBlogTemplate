@@ -12,6 +12,7 @@ import Calendar from './components/Pages/Calendar';
 import SinglePost from './components/blogComponents/SinglePost';
 import NotFound from './components/blogComponents/NotFound';
 import { useLocalStorage } from './utils/useLocalStorage';
+import { slug } from './utils/slug';
 
 import { ChakraProvider, Box, ListItem, UnorderedList, Spacer,
     Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
@@ -74,54 +75,52 @@ function App() {
         !isSwitchOn ? setStoredTheme('dark') : setStoredTheme('light');
     };
 
-    function slug(str: string) {
-        return str.toLowerCase()
-            .replace(/ /g, '-')
-            .replace(/[^\w-]+/g, '');
-    }
+    const primaryColor = storedTheme === 'light' ? '#fff' : '#333';
+    const secondaryColor = storedTheme === 'light' ? '#333' : '#fff';
+    const bgColor = storedTheme === 'light' ? '#222' : '#eee';
 
     return (
         <Wrapper test={storedTheme}>
             <ChakraProvider>
                 <BrowserRouter>
                     <Box  p={4} 
-                        bg={ storedTheme === 'light' ? '#333' : '#fff'}
+                        bg={ secondaryColor }
                         borderBottom={ storedTheme === 'light' ? 'solid 1px #333' : 'solid 1px #fff'}
-                        color={ storedTheme === 'light' ? '#fff' : '#333'}>
+                        color={ primaryColor }>
                         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
                             <Menu>
                                 <MenuButton as={Button} 
                                     rightIcon={<ChevronDownIcon />} 
-                                    color={storedTheme === 'light' ? '#fff' : '#333'}
-                                    bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                    color={primaryColor}
+                                    bg={bgColor}>
                                     Menu
                                 </MenuButton>
                                 <MenuList
-                                    color={storedTheme === 'light' ? '#fff' : '#333'}
-                                    bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                    color={primaryColor}
+                                    bg={bgColor}>
                                     <MenuItem as="a" href="/"
-                                        color={storedTheme === 'light' ? '#fff' : '#333'}
-                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        color={primaryColor}
+                                        bg={bgColor}>
                                         Home
                                     </MenuItem>
                                     <MenuItem as="a" href="/contact"
-                                        color={storedTheme === 'light' ? '#fff' : '#333'}
-                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        color={primaryColor}
+                                        bg={bgColor}>
                                         Contact
                                     </MenuItem>
                                     <MenuItem as="a" href="/resume"
-                                        color={storedTheme === 'light' ? '#fff' : '#333'}
-                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        color={primaryColor}
+                                        bg={bgColor}>
                                         Resume
                                     </MenuItem>
                                     <MenuItem as="a" href="/calendar"
-                                        color={storedTheme === 'light' ? '#fff' : '#333'}
-                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        color={primaryColor}
+                                        bg={bgColor}>
                                         Calendar
                                     </MenuItem>
                                     <MenuItem as="a" href="/strava"
-                                        color={storedTheme === 'light' ? '#fff' : '#333'}
-                                        bg={storedTheme === 'light' ? '#222' : '#eee'}>
+                                        color={primaryColor}
+                                        bg={bgColor}>
                                         Strava
                                     </MenuItem>
                                 </MenuList>
@@ -151,23 +150,23 @@ function App() {
                             backdropInvert='80%'
                             backdropBlur='2px'>
                             <ModalContent>
-                                <ModalHeader color={storedTheme === 'light' ? '#333' : '#fff'} bg={storedTheme === 'light' ? '#fff' : '#333'}
+                                <ModalHeader color={secondaryColor} bg={primaryColor}
                                 >
                     Type keyword to search
                                 </ModalHeader>
-                                <ModalBody  bg={storedTheme === 'light' ? '#fff' : '#333'} pb={6}>
+                                <ModalBody  bg={primaryColor} pb={6}>
                                     <FormControl mt={4}>
                                         <Input placeholder=''
                                             ref={initialRef}
-                                            color={storedTheme === 'light' ? '#333' : '#fff'}
+                                            color={secondaryColor}
                                             onChange={(e)=> setSearchTerm(e.target.value)}
                                         />
                                     </FormControl>
                                     <br/>
                                     {searchResultItems && 
                       <UnorderedList>{searchResultItems.map(function(item: SearchResultItem){return (<Link to={slug(item.title)} key={item.id} state={item.id}>
-                          <ListItem color={storedTheme === 'light' ? '#333' : '#fff'}
-                              bg={storedTheme === 'light' ? '#fff' : '#333'} key={item.id}>
+                          <ListItem color={secondaryColor}
+                              bg={primaryColor} key={item.id}>
                               {item.title}
                           </ListItem>
                       </Link>);
@@ -175,9 +174,9 @@ function App() {
                       </UnorderedList>
                                     }
                                 </ModalBody>
-                                <ModalFooter  bg={storedTheme === 'light' ? '#fff' : '#333'}>
-                                    <Button bg={storedTheme === 'light' ? '#333' : '#fff'}
-                                        color={storedTheme === 'light' ? '#fff' : '#333'} onClick={onCloseClear}>
+                                <ModalFooter  bg={primaryColor}>
+                                    <Button bg={secondaryColor}
+                                        color={primaryColor} onClick={onCloseClear}>
                       Cancel
                                     </Button>
                                 </ModalFooter>
