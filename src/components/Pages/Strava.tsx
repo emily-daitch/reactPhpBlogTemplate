@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SummaryActivity, DateDistance } from '../../types/strava';
 import { getActivities, getMapActivity } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
-import { Grid, Container } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { VictoryBar, VictoryLegend, VictoryStack, VictoryChart, VictoryAxis, VictoryTheme, VictoryContainer, VictoryLabel } from 'victory';
 import moment from 'moment';
 import { summaryActivity } from '../../data/summaryActivity';
@@ -159,23 +159,17 @@ export default function Strava({theme}: Props) {
                 >
                     <VictoryBar
                         data={walkGraphData}
-                        // data accessor for x values
                         x="start_date"
-                        // data accessor for y values
                         y="distance"
                     />
                     <VictoryBar
                         data={runGraphData}
-                        // data accessor for x values
                         x="start_date"
-                        // data accessor for y values
                         y="distance"
                     />
                     <VictoryBar
                         data={bikeGraphData}
-                        // data accessor for x values
                         x="start_date"
-                        // data accessor for y values
                         y="distance"
                     />
                 </VictoryStack>

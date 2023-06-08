@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Paginator, Container, PageGroup, usePaginator } from 'chakra-paginator';
-import PostList from './blogComponents/PostList';
-import { SimpleGrid, Link, Box, Stack } from '@chakra-ui/react';
 import styled from 'styled-components';
+
+import PostList from './blogComponents/PostList';
+
+import { Paginator, Container, PageGroup, usePaginator } from 'chakra-paginator';
+import { SimpleGrid, Link, Box, Stack } from '@chakra-ui/react';
 
 type ChildrenProp = {
   children: React.ReactNode;
