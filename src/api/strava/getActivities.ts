@@ -54,7 +54,6 @@ export const getMapActivity = async ():Promise<SummaryActivity> => {
     );
     const id = await res.json();
     
-    console.log('attttt', id.access_token);
     const activities_url = `https://www.strava.com/api/v3/activities/${MAP_ACTIVITY_ID}?access_token=${id.access_token}`;
     const activities = await fetch(activities_url);
     const data = await activities.json();

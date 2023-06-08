@@ -75,7 +75,6 @@ export default function Main({theme}: Props) {
     const url = process.env.REACT_APP_URL;
     const certed = process.env.REACT_APP_CERTED;
     const fakeDB = process.env.REACT_APP_FAKE_DB;
-    console.log('certed ', certed);
     const protocol = certed === 'false' ? 'http' : 'https';
 
     useEffect(() => {        
@@ -98,7 +97,7 @@ export default function Main({theme}: Props) {
             const res = await fetch(
                 `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
             );
-            console.log('res', res);
+            console.log('fetch posts result', res);
             
             const data = await res.json();
             return data;

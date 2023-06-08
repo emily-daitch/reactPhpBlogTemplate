@@ -10,7 +10,6 @@ type PostListInput = {
 }
 
 export default function PostList({id, title, image, theme}: PostListInput) {
-    console.log('theme from PostList', theme);
     function slug(str: string) {
         return str.toLowerCase()
             .replace(/ /g, '-')

@@ -11,7 +11,6 @@ export default function Calendar({theme}: Props) {
     const color = isLightTheme ? '#333' : '#fff';
     const calendar_link = process.env.REACT_APP_GOOGLE_CALENDAR_LINK;
     const calendly_link = process.env.REACT_APP_CALENDLY_SCHEDULE_LINK as string;
-    console.log('calendly link', calendly_link);
 
     return (
         <div style={styleColor}><p>Calendar</p>

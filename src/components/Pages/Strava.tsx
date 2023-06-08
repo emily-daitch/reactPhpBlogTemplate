@@ -100,7 +100,6 @@ export default function Strava({theme}: Props) {
     ];
     
     const formattedDates = dateArray.map(date => moment(date, 'YYYY-MM-DD').toDate());
-    console.log('formatted dated', formattedDates);
 
     const parsedStravaData = stravaData.filter((datum: SummaryActivity) => {
         datum.distance = datum.distance * 0.000621371;
@@ -125,8 +124,6 @@ export default function Strava({theme}: Props) {
     const walkGraphData = dd[0];
     const runGraphData = dd[1];
     const bikeGraphData = dd[2];
-
-    console.log('parsedStravaData', stravaData);
     
     const padding = { top: 70, bottom: 100, left: 80, right: 40 };
 

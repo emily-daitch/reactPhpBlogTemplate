@@ -25,7 +25,6 @@ export default function SinglePost({theme}: Props) {
     const env = process.env.REACT_APP_STAGE;
     const url = process.env.REACT_APP_URL;
     const certed = process.env.REACT_APP_CERTED;
-    console.log('certed ', certed);
     const protocol = certed === 'false' ? 'http' : 'https';
 
     const fetchCurrentPost = async (id: string) => {
