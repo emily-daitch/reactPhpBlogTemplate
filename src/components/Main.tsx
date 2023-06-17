@@ -83,32 +83,38 @@ export default function Main({theme}: Props) {
         const fetchPosts = async (pageSize: string, offset: string) => {
             if(fakeDB === 'true'){
                 setPostsTotal(Number(pageSize));
-                const posts: Post[] = [];
+                const fakePosts: Post[] = [];
                 for(let i = 0; i < Number(pageSize); i++){
-                    posts.push({
+                    fakePosts.push({
                         id: i.toString(),
                         title: `title${i}`,
                         content: 'content',
                         image: 'https://ik.imagekit.io/emilydaitch/Test2.jpg?updatedAt=1680724497500' //replace with publicly available image (that I am not hosting)
                     });
                 }
-                setPosts(posts);
+                setPosts(fakePosts);
                 return;
             }
             console.log('fetching with pageSize', pageSize, 'and offset', offset);
-            const res = await fetch(
-                `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
-            );
+            let res;
+            try{
+                res = await fetch(
+                    `${protocol}://${env}${url}/api/posts?limit=${pageSize}&offset=${offset}`
+                );
+            } catch(err){
+                res = null;
+            }
             console.log('fetch posts result', res);
             
-            const data = await res.json();
+            const data = res ? await res.json() : {posts:{count:0, posts:null}};
             return data;
         };
 
-        fetchPosts(pageSize.toString(), offset.toString()).then((posts) => {
-            setPostsTotal(posts.count);
-            setPosts(posts.posts);
+        fetchPosts(pageSize.toString(), offset.toString()).then((fetchedPosts) => {
+            setPostsTotal(fetchedPosts.count);
+            setPosts(fetchedPosts.posts.posts);
         });
+
     }, [pageSize, offset, env]);
 
     const color = theme === 'dark' ? {
@@ -151,10 +157,10 @@ export default function Main({theme}: Props) {
                     activeStyles={activeStyles}
                     normalStyles={normalStyles}>
                     <SimpleGrid minChildWidth='300px' gap={6}>
-                        {posts.map(function({id, title, image}){
+                        {posts ? posts?.map(function({id, title, image}){
                             return <PostList key={id} id={id} title={title}
                                 image={image} theme={theme}/>;
-                        })}
+                        }) : <></>}
                     </SimpleGrid>
                     <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>
                         <PageGroup isInline align="center"/>
