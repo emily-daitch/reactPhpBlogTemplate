@@ -12,7 +12,7 @@ export default function Resume({theme}: Props) {
 
     return (
         <div style={styleColor}><p>Resume</p>
-            <br/><Link color={color} to='https://drive.google.com/file/d/18yllIPAw3wG4IWpXaPUCXozxABqOD39k/view' target="_blank" rel="noopener noreferrer">
+            <br/><Link color={color} to='https://drive.google.com/file/d/1mBbvpMeTKAhM1y-A1mxXj2fRkFnqurlu/view?usp=sharing' target="_blank" rel="noopener noreferrer">
                 <p style={{color: 'teal'}}>View/Download my Resume</p>
             </Link>
         </div>
