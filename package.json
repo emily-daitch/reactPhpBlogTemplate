@@ -5,6 +5,7 @@
   "description": "React/PHP Blog Template",
   "private": true,
   "dependencies": {
+    "@canvasjs/charts": "^3.7.9",
     "@canvasjs/react-charts": "^1.0.0",
     "@chakra-ui/icons": "^2.0.17",
     "@chakra-ui/react": "^2.5.4",

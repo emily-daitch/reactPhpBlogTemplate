@@ -7,8 +7,8 @@ import moment from 'moment';
 import { summaryActivity } from '../../data/summaryActivity';
 import CanvasJSReact from '@canvasjs/react-charts';
 
-var CanvasJS = CanvasJSReact.CanvasJS;
-var CanvasJSChart = CanvasJSReact.CanvasJSChart;
+const CanvasJS = CanvasJSReact.CanvasJS;
+const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 type Props = {
     theme: string
@@ -137,7 +137,7 @@ export default function Strava({theme}: Props) {
             <br/><br/>
             Last Week of Activity:
             <Container maxW={'800px'}> 
-            {/* Add Canvas charts */}
+                {/* Add Canvas charts */}
             </Container><br/>
             <p style={{alignItems: 'center', justifyContent: 'center', alignContent: 'center', display: 'flex'}}>
                 Totals for the past week:<br/>
