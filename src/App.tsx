@@ -47,10 +47,14 @@ function App() {
         const protocol = certed === 'false' ? 'http' : 'https';
         
         const fetchSearchResults = async (searchTerm: string) => {
-
-            const res = await fetch(
-                `${protocol}://${url}/api/searchResults?keyword=${searchTerm}`
-            );
+            let res;
+            try{
+                res = await fetch(
+                    `${protocol}://${url}/api/searchResults?keyword=${searchTerm}`
+                );
+            } catch(err){
+                res = new Response('{}');
+            }
   
           
             const data = await res.json();
