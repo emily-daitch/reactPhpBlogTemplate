@@ -50,7 +50,7 @@ function App() {
             let res;
             try{
                 res = await fetch(
-                    `${protocol}://${url}/api/searchResults?keyword=${searchTerm}`
+                    `${protocol}://${env}${url}/api/searchResults?keyword=${searchTerm}`
                 );
             } catch(err){
                 res = new Response('{}');

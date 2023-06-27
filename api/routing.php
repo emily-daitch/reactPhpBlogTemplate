@@ -3,6 +3,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', '1');
 //require "services/DB.php";
 require('controllers/PostsController.php');
+require('controllers/StravaController.php');
 require('Api.php');
 //use services\DB;
 use Api\Api;
@@ -20,6 +21,8 @@ $urls = [
     '/reactPhpBlogTemplate/api/posts' => ['PostsController@getPostsFromDatabase'],
     '/reactPhpBlogTemplate/api/searchResults' => ['PostsController@getSearchResults'],
     '/reactPhpBlogTemplate/api/getCurrentTopic' => ['PostsController@getCurrentTopic'],
+    '/reactPhpBlogTemplate/api/getStravaActivities' => ['StravaController@getActivities'],
+    '/reactPhpBlogTemplate/api/getMapActivity' => ['StravaController@getMapActivity'],
 ];
 
 $availableRoutes = array_keys($urls);

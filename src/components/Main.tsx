@@ -104,15 +104,15 @@ export default function Main({theme}: Props) {
             } catch(err){
                 res = null;
             }
-            console.log('fetch posts result', res);
             
-            const data = res ? await res.json() : {posts:{count:0, posts:null}};
+            const data = res ? await res.json() : {count:0, posts:null};
+
             return data;
         };
 
         fetchPosts(pageSize.toString(), offset.toString()).then((fetchedPosts) => {
             setPostsTotal(fetchedPosts.count);
-            setPosts(fetchedPosts.posts.posts);
+            setPosts(fetchedPosts.posts);
         });
 
     }, [pageSize, offset, env]);
