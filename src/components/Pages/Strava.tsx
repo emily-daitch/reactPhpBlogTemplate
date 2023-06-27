@@ -205,6 +205,114 @@ export default function Strava({theme}: Props) {
                 Avg. running speed: {getAverageSpeed(runData).toFixed(1)} mi/h.<br/>
                 Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
             </p><br/>
+            <p>History -- data obtained monthly from an AWS Lambda Cron Job:</p>
+            <Container maxW={'800px'}><VictoryChart
+                containerComponent={<VictoryContainer responsive={true} style={{margin: 'auto'}}/>}
+                padding={padding}
+                // domainPadding will add space to each side of VictoryBar to
+                // prevent it from overlapping the axis
+                theme={VictoryTheme.material}
+                domainPadding={20}
+            >
+                <VictoryLegend
+                    x={80}
+                    title="Legend"
+                    centerTitle
+                    orientation="horizontal"
+                    gutter={20}
+                    style={{ border: { stroke: 'black' }, title: {fontSize: 10 } }}
+                    data={[
+                        { name: 'Walks', symbol: { fill: 'tomato' } },
+                        { name: 'Runs', symbol: { fill: 'orange' } },
+                        { name: 'Bikes', symbol: { fill: 'gold' }}
+                    ]}
+                />
+                <VictoryStack
+                    colorScale={['tomato', 'orange', 'gold']}
+                >
+                    <VictoryBar
+                        data={
+                            [
+                                {
+                                    start_date: '03-01-2023',
+                                    distance: 21.1
+                                },
+                                {
+                                    start_date: '04-01-2023',
+                                    distance: 82.9
+                                },
+                                {
+                                    start_date: '05-01-2023',
+                                    distance: 78.0
+                                }
+                            ]
+                        }
+                        x='start_date'
+                        y='distance'
+                    />
+                    <VictoryBar
+                        data={
+                            [
+                                {
+                                    start_date: '03-01-2023',
+                                    distance: 3.6
+                                },
+                                {
+                                    start_date: '04-01-2023',
+                                    distance: 23.4
+                                },
+                                {
+                                    start_date: '05-01-2023',
+                                    distance: 22.6
+                                }
+                            ]
+                        }
+                        x='start_date'
+                        y='distance'
+                    />
+                    <VictoryBar
+                        data={
+                            [
+                                {
+                                    start_date: '03-01-2023',
+                                    distance: 0
+                                },
+                                {
+                                    start_date: '04-01-2023',
+                                    distance: 21.8
+                                },
+                                {
+                                    start_date: '05-01-2023',
+                                    distance: 11.7
+                                }
+                            ]
+                        }
+                        x='start_date'
+                        y='distance'
+                    />
+                </VictoryStack>
+                <VictoryAxis
+                    // tickValues specifies both the number of ticks and where
+                    // they are placed on the axis
+                    scale='time'
+                    tickValues={
+                        [
+                            '03-01-2023',
+                            '04-01-2023',
+                            '05-01-2023'
+                        ]
+                    }
+                    // tickFormat={(x) => (`${()}`)}
+                    fixLabelOverlap
+                    axisLabelComponent={<VictoryLabel dy={25} />}
+                    label={'Cumulative activity per month'}
+                />
+                <VictoryAxis
+                    dependentAxis
+                    // tickFormat specifies how ticks should be displayed
+                    tickFormat={(x) => (`${(x).toFixed(1)} mi`)}
+                />
+            </VictoryChart></Container><br/>
             <p>Example Google Maps Static API Route Render:</p><br/>
             <div style={{justifyContent: 'center', display: 'flex'}}><img src={imgurl}></img></div>
         </div>
