@@ -6,6 +6,11 @@ import { Container } from '@chakra-ui/react';
 import { summaryActivity } from '../../data/summaryActivity';
 import CanvasJSReact from '@canvasjs/react-charts';
 
+const env = process.env.REACT_APP_STAGE;
+const url = process.env.REACT_APP_URL;
+const certed = process.env.REACT_APP_CERTED;
+const protocol = certed === 'false' ? 'http' : 'https';
+
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 export const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
@@ -72,8 +77,6 @@ export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: s
 };
 
 export default function Strava() {
-    const google_maps_token = process.env.REACT_APP_GOOGLE_API_TOKEN;
-
     const [mapData, setMapData] = useState(summaryActivity as SummaryActivity);
     const [stravaData, setStravaData] = useState([summaryActivity as SummaryActivity]);
     const [stravaError, setStravaError] = useState(null);
@@ -137,7 +140,7 @@ export default function Strava() {
     const bikeGraphData = dd[2];
     
     //const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
-    const imgurl=`http://localhost/reactPhpBlogTemplate/api/getMapUrl?polyLine=${mapData?.map.summary_polyline}`;
+    const imgurl=`${protocol}://${env}${url}/api/getMapUrl?polyLine=${mapData?.map.summary_polyline}`;
     
     const options = {
         animationEnabled: true,

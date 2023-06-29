@@ -1,4 +1,4 @@
-import {getAverageSpeed} from "../components/Pages/Strava";
+import {getAverageSpeed} from "../components/Pages/Strava_Canvas";
 import { testSummaryRunActivity, testSummaryWalkActivity, testSummaryMixedActivities } from "./stravaTestData";
 
 test('get average speed', () => {

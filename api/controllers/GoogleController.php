@@ -3,7 +3,7 @@ namespace Api\Controllers;
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-//include 'sharkweek-staging.php'; // Lives outside repo / webroot
+include 'sharkweek-staging.php'; // Lives outside repo / webroot
 
 class GoogleController
 {
@@ -16,12 +16,14 @@ class GoogleController
 
     public function getMapUrl()
     {
+        global $gmaps_token;
+
         try
         {
             $this->getHeaders();
             $polyLine = $_GET['polyLine'] ?? '';
 
-            $imgurl = "https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:$polyLine&key=AIzaSyBd13A8iwHz-ZDSEIlWTNz2MJ9lO_d8xKU";//$gmaps_token";
+            $imgurl = "https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:$polyLine&key=$gmaps_token";
             // Read JSON file
             $img_data = file_get_contents($imgurl);
 

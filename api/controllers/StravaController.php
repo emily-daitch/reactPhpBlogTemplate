@@ -3,6 +3,7 @@ namespace Api\Controllers;
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+include '../sharkweek-staging.php'; // Lives outside repo / webroot
 
 class StravaController
 {
@@ -15,6 +16,8 @@ class StravaController
 
     public function getActivities()
     {
+        global $strava_client_id, $strava_secret, $strava_refresh, $gmaps_token;
+
         try
         {
             $this->getHeaders();
@@ -22,7 +25,7 @@ class StravaController
             $auth_url = 'https://www.strava.com/oauth/token';
 
             $data = array('client_id' => '104520', 'client_secret' => 'c43faa53bae662f26d5fa4976683a56908a994c3',
-        'refresh_token' => 'ced5a05bc1dc04c512818f940bb4270738bc4101', 'grant_type' => 'refresh_token', 'f' => 'json');
+            'refresh_token' => 'ced5a05bc1dc04c512818f940bb4270738bc4101', 'grant_type' => 'refresh_token', 'f' => 'json');
 
             $options = array(
                 'http' => array(
@@ -61,6 +64,8 @@ class StravaController
 
     public function getMapActivity()
     {
+        global $strava_client_id, $strava_secret, $strava_refresh, $gmaps_token;
+
         $this->getHeaders();
 
         $auth_url = 'https://www.strava.com/oauth/token';
