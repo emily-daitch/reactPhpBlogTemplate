@@ -1,7 +1,6 @@
-[ ] Finish HOSTING.md
-[ ] Update README.md
-[ ] avoid passing theme around for light/dark mode<br>
-[ ] cleanup un-needed files from create-react-app<br>
+[ ] Finish HOSTING.md<br>
+[ ] Update README.md<br>
+[ ] fork and don't use the deprecated create-react-app<br>
 [ ] make more graphs to visualize Strava data<br>
 [ ] write some more tests (pagination testing, victory chart testing)<br>
 
@@ -13,3 +12,4 @@ Log:<br>
 [x] get the api/routing working without the server hack<br>
 [x] fix background color not extending to bottom of page
 [x] write initial tests for Strava behavior
+[x] avoid passing theme around for light/dark mode<br>
