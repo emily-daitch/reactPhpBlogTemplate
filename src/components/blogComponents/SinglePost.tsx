@@ -3,24 +3,17 @@ import { useLocation } from 'react-router-dom';
 import { Container, Heading } from '@chakra-ui/react';
 import parse from 'html-react-parser';
 
-type Props = {
-    theme: string
-}
-
 type PostData = {
     title: string,
     content: string,
     image: string
 }
 
-export default function SinglePost({theme}: Props) {
+export default function SinglePost() {
 
     const location = useLocation();
     const [postDataId, setPostData] = useState({});
     const [postData, setCurrentPost] = useState<PostData>({image: '', title: '', content: ''});
-    const isLightTheme = theme === 'light';
-    const styleColor = isLightTheme ? {color:'#333', background:'#fff'} : {color:'#fff', background:'#333'};
-    const color = isLightTheme ? '#333' : '#fff';
 
     const env = process.env.REACT_APP_STAGE;
     const url = process.env.REACT_APP_URL;
@@ -52,11 +45,10 @@ export default function SinglePost({theme}: Props) {
     return (
         <>
             {postData != null && 
-                <Container maxW='1200px' marginTop={'50px'} style={styleColor}>
+                <Container maxW='1200px' marginTop={'50px'}>
                     <Heading
                         size='lg'
                         textAlign='center'
-                        color={color}
                     >
                         {postData.title}
                         <br/>
@@ -66,7 +58,7 @@ export default function SinglePost({theme}: Props) {
                     </Heading>
                     <br/>
                     <br/>
-                    <p color={color}>
+                    <p>
                         {parse(postData.content)}
                     </p>
                 </Container>

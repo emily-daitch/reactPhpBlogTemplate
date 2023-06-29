@@ -56,4 +56,6 @@ export type SummaryActivity = {
 export type DateDistance = {
     start_date: string;
     distance: number;
+    label?: string;
+    y?: number;
 }

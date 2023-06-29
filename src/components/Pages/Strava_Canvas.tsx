@@ -3,16 +3,10 @@ import { SummaryActivity, DateDistance } from '../../types/strava';
 import { getActivities, getMapActivity } from 'src/api/strava/getActivities';
 import { Link } from 'react-router-dom';
 import { Container } from '@chakra-ui/react';
-import moment from 'moment';
 import { summaryActivity } from '../../data/summaryActivity';
 import CanvasJSReact from '@canvasjs/react-charts';
 
-const CanvasJS = CanvasJSReact.CanvasJS;
 const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
-type Props = {
-    theme: string
-}
 
 export const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
     if (exerciseData.length == 0) return 0;
@@ -32,7 +26,13 @@ export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: s
     for(const date of dateArray){
         walkGraphData.push({
             start_date: date,
+            label: date,
             distance: walkData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0),
+            y: walkData.filter((datum: SummaryActivity) => {
                 return datum.start_date === date ? true : false;
             }).reduce(
                 (accumulator, currentValue) => accumulator + currentValue.distance,
@@ -40,7 +40,13 @@ export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: s
         });
         runGraphData.push({
             start_date: date,
+            label: date,
             distance: runData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0),
+            y: runData.filter((datum: SummaryActivity) => {
                 return datum.start_date === date ? true : false;
             }).reduce(
                 (accumulator, currentValue) => accumulator + currentValue.distance,
@@ -48,27 +54,31 @@ export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: s
         });
         bikeGraphData.push({
             start_date: date,
+            label: date,
             distance: bikeData.filter((datum: SummaryActivity) => {
                 return datum.start_date === date ? true : false;
             }).reduce(
                 (accumulator, currentValue) => accumulator + currentValue.distance,
-                0)
+                0),
+            y: bikeData.filter((datum: SummaryActivity) => {
+                return datum.start_date === date ? true : false;
+            }).reduce(
+                (accumulator, currentValue) => accumulator + currentValue.distance,
+                0.0),
         });
     }
-
+    console.log('bikeGraphData', bikeGraphData);
     return [walkGraphData, runGraphData, bikeGraphData];
 };
 
-export default function Strava({theme}: Props) {
-    const isLightTheme = theme === 'light';
-    const styleColor = isLightTheme ? {color:'#333', margin: 'auto'} : {color:'#fff', margin: 'auto'};
+export default function Strava() {
     const google_maps_token = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
     const [mapData, setMapData] = useState(summaryActivity as SummaryActivity);
     const [stravaData, setStravaData] = useState([summaryActivity as SummaryActivity]);
     const [stravaError, setStravaError] = useState(null);
     const [stravaLoading, setStravaLoading] = useState(true);
-    async function getA() {
+    async function getActivity() {
         try {
             setStravaLoading(true);
             const stravaData = await getActivities();
@@ -82,12 +92,12 @@ export default function Strava({theme}: Props) {
         }
     }
     useEffect(() => {
-        getA();
+        getActivity();
     }, []);
     
     if (stravaError) {
         console.log('stravaError: ', stravaError);
-        return <p>Failed to load resource A</p>;
+        return <p>Failed to load Strava data</p>;
     }
 
     const dateArray = [
@@ -102,8 +112,6 @@ export default function Strava({theme}: Props) {
         new Date(Date.now() - (60*60*24*1000*8)).toISOString().slice(0,10)
     ];
     
-    const formattedDates = dateArray.map(date => moment(date, 'YYYY-MM-DD').toDate());
-
     const parsedStravaData = stravaData.filter((datum: SummaryActivity) => {
         datum.distance = datum.distance * 0.000621371;
         datum.average_speed = datum.average_speed * 2.23694;
@@ -128,16 +136,150 @@ export default function Strava({theme}: Props) {
     const runGraphData = dd[1];
     const bikeGraphData = dd[2];
     
-    const padding = { top: 70, bottom: 100, left: 80, right: 40 };
-
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
+    
+    const options = {
+        animationEnabled: true,
+        exportEnabled: false,
+        title: {
+            text: 'Last Week of Activity',
+            fontFamily: 'verdana'
+        },
+        axisY: {
+            title: 'miles',
+            includeZero: true,
+            prefix: '',
+            suffix: ' mi.'
+        },
+        toolTip: {
+            shared: true,
+            reversed: true
+        },
+        legend: {
+            verticalAlign: 'center',
+            horizontalAlign: 'right',
+            reversed: true,
+        },
+        data: [
+            {
+                type: 'stackedColumn',
+                name: 'Runs',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: runGraphData
+            },
+            {
+                type: 'stackedColumn',
+                name: 'Walks',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: walkGraphData
+            },
+            {
+                type: 'stackedColumn',
+                name: 'Bikes',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: bikeGraphData
+            },
+        ]
+    };
+
+    const monthlySumOptions = {
+        animationEnabled: true,
+        exportEnabled: false,
+        title: {
+            text: 'Monthly Summaries',
+            fontFamily: 'verdana'
+        },
+        axisY: {
+            title: 'miles',
+            includeZero: true,
+            prefix: '',
+            suffix: ' mi.'
+        },
+        toolTip: {
+            shared: true,
+            reversed: true,
+        },
+        legend: {
+            verticalAlign: 'center',
+            horizontalAlign: 'right',
+            reversed: true,
+        },
+        data: [
+            {
+                type: 'stackedColumn',
+                name: 'Runs',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: [
+                    {
+                        label: '03-2023',
+                        y: 3.6
+                    },
+                    {
+                        label: '04-2023',
+                        y: 23.4
+                    },
+                    {
+                        label: '05-2023',
+                        y: 22.6
+                    }
+                ]
+            },
+            {
+                type: 'stackedColumn',
+                name: 'Walks',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: [
+                    {
+                        label: '03-2023',
+                        y: 21.1
+                    },
+                    {
+                        label: '04-2023',
+                        y: 82.9
+                    },
+                    {
+                        label: '05-2023',
+                        y: 78.0
+                    }
+                ]
+            },
+            {
+                type: 'stackedColumn',
+                name: 'Bikes',
+                showInLegend: true,
+                yValueFormatString: '##.# mi.',
+                dataPoints: [
+                    {
+                        label: '03-2023',
+                        y: 0
+                    },
+                    {
+                        label: '04-2023',
+                        y: 21.8
+                    },
+                    {
+                        label: '05-2023',
+                        y: 11.7
+                    }
+                ]
+            },
+        ]
+    };
+
     return stravaLoading ? <p>Loading...</p> : (
-        <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
-            See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'teal'}} target="_blank" rel="noopener noreferrer">here</Link>.
+        <div><p>Strava API Powered Exercise Analytics</p>
+            See the Strava API that provides this data <Link to='https://developers.strava.com/' style={{color: 'teal'}} target='_blank' rel='noopener noreferrer'>here</Link>.
             <br/><br/>
             Last Week of Activity:
             <Container maxW={'800px'}> 
-                {/* Add Canvas charts */}
+                <CanvasJSChart options = {options}
+                    //onRef={ref => this.chart = ref}
+                />
             </Container><br/>
             <p style={{alignItems: 'center', justifyContent: 'center', alignContent: 'center', display: 'flex'}}>
                 Totals for the past week:<br/>
@@ -155,6 +297,11 @@ export default function Strava({theme}: Props) {
                 Avg. running speed: {getAverageSpeed(runData).toFixed(1)} mi/h.<br/>
                 Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
             </p><br/>
+            Monthly Summaries:
+            <Container maxW={'800px'}> 
+                <CanvasJSChart options = {monthlySumOptions}
+                />
+            </Container><br/>
             <p>Example Google Maps Static API Route Render:</p><br/>
             <div style={{justifyContent: 'center', display: 'flex'}}><img src={imgurl}></img></div>
         </div>

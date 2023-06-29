@@ -18,10 +18,6 @@ const StyledPaginator = styled(Paginator)<ChildrenProp>`
     normalStyles={normalStyles}
 `;
 
-type Props = {
-    theme: string
-}
-
 type Post = {
     id: string,
     title: string,
@@ -29,11 +25,9 @@ type Post = {
     image: string
 }
 
-export default function Main({theme}: Props) {
+export default function Main() {
     const [postsTotal, setPostsTotal] = useState(0);
     const [posts, setPosts] = useState([] as Post[]);
-
-    console.log('theme from main', theme);
 
     const {
         pagesQuantity,
@@ -117,25 +111,20 @@ export default function Main({theme}: Props) {
 
     }, [pageSize, offset, env]);
 
-    const color = theme === 'dark' ? {
-        color: '#fff'
-    } : {
-        color: '#333'
-    };
     const portfolioUrl = `https://${process.env.REACT_APP_PORTFOLIO_SITE}`;
 
     return (
         <Box>
-            <p style={color}>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>
+            <p>This is a test site built following this <Link href='https://www.youtube.com/watch?v=RQYpSfXUgn4' color='teal.500'>
                 YouTube tuorial</Link> by&ensp;
             <Link href='https://www.youtube.com/@ZarxBiz' color='teal.500'>Zarx Biz</Link>, using php and MySQL. 
                 It is hosted on an Apache server with Hostinger.</p>
-            <p style={color}>This site was built with React and the help of&nbsp;
+            <p>This site was built with React and the help of&nbsp;
                 <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwil6OHhisr-AhXTmWoFHYjxC44QFnoECAYQAQ&url=https%3A%2F%2Fchakra-ui.com%2F&usg=AOvVaw0i-kTFZCUJSLSin1koRPjM' color='teal.500'>Chakra UI</Link>.</p><br/>
-            <p style={color}>You can find a guide to setting up your own project and hosting on the github&nbsp;
+            <p>You can find a guide to setting up your own project and hosting on the github&nbsp;
                 <Link href='https://github.com/emily-daitch/reactPhpBlogTemplate#readme' color='teal.500'>README</Link>.</p>
-            <p style={color}>The test posts you see exist so that enough content is here to demo the pagination on the home page.</p><br/>
-            <p style={color}>So far this site has support for: 
+            <p>The test posts you see exist so that enough content is here to demo the pagination on the home page.</p><br/>
+            <p>So far this site has support for: 
                 <div className='List'>
                     <ul>
                         <li>paginated blog posts</li>
@@ -148,7 +137,7 @@ export default function Main({theme}: Props) {
                 For fun I&apos;ve added an optional Strava page that serves as an example for presenting data from an external API&nbsp;
                 <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjak4qPi8r-AhVYl2oFHRELCgYQFnoECA4QAQ&url=https%3A%2F%2Fdevelopers.strava.com%2Fdocs%2Freference%2F&usg=AOvVaw37v0Hj5zshRfj8faNnQ5Dm' color='teal.500'>(Strava)</Link> using&nbsp;
                 <Link href='https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj425Luisr-AhVolmoFHU26C84QFnoECBEQAQ&url=https%3A%2F%2Fformidable.com%2Fopen-source%2Fvictory%2Fdocs%2Fvictory-chart%2F&usg=AOvVaw1hYIMHOQahlQjkYpZMROzi' color='teal.500'>Victory charts</Link>.</p><br/>
-            <p style={color}>See my main portfolio site <Link href={portfolioUrl} color='teal.500'>here</Link>.</p>
+            <p>See my main portfolio site <Link href={portfolioUrl} color='teal.500'>here</Link>.</p>
             <Stack>
                 <StyledPaginator
                     pagesQuantity={pagesQuantity}
@@ -159,7 +148,7 @@ export default function Main({theme}: Props) {
                     <SimpleGrid minChildWidth='300px' gap={6}>
                         {posts ? posts?.map(function({id, title, image}){
                             return <PostList key={id} id={id} title={title}
-                                image={image} theme={theme}/>;
+                                image={image} />;
                         }) : <></>}
                     </SimpleGrid>
                     <Container align="center" justify="space-between" w="full" p={4} marginTop={'50px'}>

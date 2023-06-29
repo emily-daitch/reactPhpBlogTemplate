@@ -7,10 +7,6 @@ import { VictoryBar, VictoryLegend, VictoryStack, VictoryChart, VictoryAxis, Vic
 import moment from 'moment';
 import { summaryActivity } from '../../data/summaryActivity';
 
-type Props = {
-    theme: string
-}
-
 export const getAverageSpeed = (exerciseData: SummaryActivity[]) => {
     if (exerciseData.length == 0) return 0;
     const speedTotal = Number(exerciseData.reduce(
@@ -56,9 +52,7 @@ export const getDailyTotals = (dailyTotalData: SummaryActivity[][], dateArray: s
     return [walkGraphData, runGraphData, bikeGraphData];
 };
 
-export default function Strava({theme}: Props) {
-    const isLightTheme = theme === 'light';
-    const styleColor = isLightTheme ? {color:'#333', margin: 'auto'} : {color:'#fff', margin: 'auto'};
+export default function Strava() {
     const google_maps_token = process.env.REACT_APP_GOOGLE_API_TOKEN;
 
     const [mapData, setMapData] = useState(summaryActivity as SummaryActivity);
@@ -129,11 +123,12 @@ export default function Strava({theme}: Props) {
 
     const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
     return stravaLoading ? <p>Loading...</p> : (
-        <div style={styleColor}><p>Strava API Powered Exercise Analytics</p>
+        <><p>Strava API Powered Exercise Analytics</p>
             See the Strava API that provides this data <Link to="https://developers.strava.com/" style={{color: 'teal'}} target="_blank" rel="noopener noreferrer">here</Link>.
             <br/><br/>
             Last Week of Activity:
-            <Container maxW={'800px'}><VictoryChart
+            {/* <Container maxW={'800px'} style={{margin: 'auto'}}> */}
+            <VictoryChart
                 containerComponent={<VictoryContainer responsive={true} style={{margin: 'auto'}}/>}
                 padding={padding}
                 // domainPadding will add space to each side of VictoryBar to
@@ -188,7 +183,9 @@ export default function Strava({theme}: Props) {
                     // tickFormat specifies how ticks should be displayed
                     tickFormat={(x) => (`${(x).toFixed(1)} mi`)}
                 />
-            </VictoryChart></Container><br/>
+            </VictoryChart>
+            {/* </Container> */}
+            <br/>
             <p style={{alignItems: 'center', justifyContent: 'center', alignContent: 'center', display: 'flex'}}>
                 Totals for the past week:<br/>
                 Total miles walked: {walkData.reduce(
@@ -206,7 +203,7 @@ export default function Strava({theme}: Props) {
                 Avg. biking speed: {getAverageSpeed(bikeData).toFixed(1)} mi/h.<br/><br/>
             </p><br/>
             <p>History -- data obtained monthly from an AWS Lambda Cron Job:</p>
-            <Container maxW={'800px'}><VictoryChart
+            <Container maxW={'800px'} className='try2'><VictoryChart
                 containerComponent={<VictoryContainer responsive={true} style={{margin: 'auto'}}/>}
                 padding={padding}
                 // domainPadding will add space to each side of VictoryBar to
@@ -315,6 +312,6 @@ export default function Strava({theme}: Props) {
             </VictoryChart></Container><br/>
             <p>Example Google Maps Static API Route Render:</p><br/>
             <div style={{justifyContent: 'center', display: 'flex'}}><img src={imgurl}></img></div>
-        </div>
+        </>
     );
 }

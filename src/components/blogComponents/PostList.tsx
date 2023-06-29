@@ -6,10 +6,9 @@ type PostListInput = {
     id: string,
     title: string,
     image: string,
-    theme: string
 }
 
-export default function PostList({id, title, image, theme}: PostListInput) {
+export default function PostList({id, title, image}: PostListInput) {
     function slug(str: string) {
         return str.toLowerCase()
             .replace(/ /g, '-')
@@ -25,7 +24,6 @@ export default function PostList({id, title, image, theme}: PostListInput) {
                         <Box 
                             mt='1'
                             fontWeight='semibold'
-                            color={theme === 'light' ? '#333' : '#fff'}
                             as='h4'
                         >
                             {title}
