@@ -136,7 +136,8 @@ export default function Strava() {
     const runGraphData = dd[1];
     const bikeGraphData = dd[2];
     
-    const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
+    //const imgurl=`https://maps.googleapis.com/maps/api/staticmap?size=600x300&maptype=roadmap&path=enc:${mapData?.map.summary_polyline}&key=${google_maps_token}`;
+    const imgurl=`http://localhost/reactPhpBlogTemplate/api/getMapUrl?polyLine=${mapData?.map.summary_polyline}`;
     
     const options = {
         animationEnabled: true,
@@ -153,7 +154,15 @@ export default function Strava() {
         },
         toolTip: {
             shared: true,
-            reversed: true
+            reversed: true,
+            contentFormatter: function (e: any) {
+                let content = ' ';
+                for (let i = 0; i < e.entries.length; i++) {
+                    content += e.entries[i].dataSeries.name + ': ' + '<strong>' + e.entries[i].dataPoint.y.toFixed(1) + ' mi.</strong>';
+                    content += '<br/>';
+                }
+                return content;
+            }
         },
         legend: {
             verticalAlign: 'center',
@@ -201,6 +210,14 @@ export default function Strava() {
         toolTip: {
             shared: true,
             reversed: true,
+            contentFormatter: function (e: any) {
+                let content = ' ';
+                for (let i = 0; i < e.entries.length; i++) {
+                    content += e.entries[i].dataSeries.name + ': ' + '<strong>' + e.entries[i].dataPoint.y.toFixed(1) + ' mi.</strong>';
+                    content += '<br/>';
+                }
+                return content;
+            }
         },
         legend: {
             verticalAlign: 'center',

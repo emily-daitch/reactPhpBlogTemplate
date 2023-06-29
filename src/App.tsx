@@ -13,14 +13,13 @@ import Resume from './components/Pages/Resume';
 import Calendar from './components/Pages/Calendar';
 import SinglePost from './components/blogComponents/SinglePost';
 import NotFound from './components/blogComponents/NotFound';
-import { useLocalStorage } from './utils/useLocalStorage';
 import { slug } from './utils/slug';
 
 import { ChakraProvider, Box, ListItem, UnorderedList, Spacer,
-    Stack, Switch, Container, useDisclosure, Button, Modal, ModalContent,
+    Stack, Container, useDisclosure, Button, Modal, ModalContent,
     ModalHeader, ModalFooter, ModalOverlay, ModalBody, FormControl,
-    Input, Flex, Menu, MenuButton, MenuList, MenuItem, ColorModeScript, useColorMode } from '@chakra-ui/react';
-import { MoonIcon, SunIcon, Search2Icon, ChevronDownIcon } from '@chakra-ui/icons';
+    Input, Flex, Menu, MenuButton, MenuList, MenuItem, ColorModeScript } from '@chakra-ui/react';
+import { Search2Icon, HamburgerIcon } from '@chakra-ui/icons';
 
 type SearchResultItem = {
   id: string,
@@ -78,7 +77,7 @@ function App() {
                     <Flex h={16} alignItems={'center'} justifyContent={'space-between'} className='opposite'>
                         <Menu>
                             <MenuButton as={Button} 
-                                rightIcon={<ChevronDownIcon />} 
+                                rightIcon={<HamburgerIcon />} 
                                 size='xl' variant='solid'
                             >
                                 Menu
@@ -88,23 +87,23 @@ function App() {
                                 //variant='solid'
                                 border={'none'}
                             >
-                                <MenuItem as='a' href='/'
+                                <MenuItem as='a' href='/' _focus={ { bg: '#444', color: '#9EE680' } }
                                 >
                                     Home
                                 </MenuItem>
-                                <MenuItem as='a' href='/contact'
+                                <MenuItem as='a' href='/contact' _focus={ { bg: '#444', color: '#9EE680' } }
                                 >
                                     Contact
                                 </MenuItem>
-                                <MenuItem as='a' href='/resume'
+                                <MenuItem as='a' href='/resume' _focus={ { bg: '#444', color: '#9EE680' } }
                                 >
                                     Resume
                                 </MenuItem>
-                                <MenuItem as='a' href='/calendar'
+                                <MenuItem as='a' href='/calendar' _focus={ { bg: '#444', color: '#9EE680' } }
                                 >
                                     Calendar
                                 </MenuItem>
-                                <MenuItem as='a' href='/strava'
+                                <MenuItem as='a' href='/strava' _focus={ { bg: '#444', color: '#9EE680' } }
                                 >
                                     Strava
                                 </MenuItem>
@@ -116,9 +115,6 @@ function App() {
                         <Flex alignItems={'center'}>
                             <Spacer></Spacer>
                             <Stack direction={'row'} spacing={7}>
-                                {/* <Switch isChecked={isSwitchOn} onChange={changeThemeSwitch}>
-                                    {isSwitchOn ? (<MoonIcon mr="5"></MoonIcon>) : (<SunIcon mr="5"></SunIcon>)}
-                                </Switch> */}
                                 <ColorModeSwitcher></ColorModeSwitcher>
                             </Stack>
                         </Flex>

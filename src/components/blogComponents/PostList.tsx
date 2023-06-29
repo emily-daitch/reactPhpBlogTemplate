@@ -17,14 +17,15 @@ export default function PostList({id, title, image}: PostListInput) {
 
     return (
         <Center>
-            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' m={15}>
+            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' m={15} className='opposite'>
                 <Link to={slug(title)} state={id}>
                     <img src={image} alt={title}/>
-                    <Box p={6}>
+                    <Box p={6} className='opposite'>
                         <Box 
                             mt='1'
                             fontWeight='semibold'
                             as='h4'
+                            className='opposite'
                         >
                             {title}
                         </Box>

@@ -14,7 +14,7 @@ class DB
         $username = 'root';
         $password = '';
         $servername = 'localhost';
-        $database = "react_php";
+        $database = "click";
         //*/
         // Making connection
         $conn = mysqli_connect($servername, $username, $password, $database);

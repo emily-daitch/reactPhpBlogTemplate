@@ -1,0 +1,7 @@
+Options -MultiViews
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+# To hijack this file for local development using index.php, comment the line below
+# This line is responsible for sending users to the index.html file so we can see our React frontend.
+# With it commented, requests will take you to (and run) index.php insetad
+RewriteRule ^ index.html [QSA,L]

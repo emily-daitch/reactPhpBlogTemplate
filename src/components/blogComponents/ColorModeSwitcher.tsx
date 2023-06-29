@@ -12,7 +12,7 @@ export default function ColorModeSwitcher() {
 
     return (
         <Switch isChecked={colorMode === 'light'} onChange={toggleSwitch}>
-            {colorMode === 'light' ? (<MoonIcon mr="5"></MoonIcon>) : (<SunIcon mr="5"></SunIcon>)}
+            {colorMode === 'light' ? (<SunIcon mr="5"></SunIcon>) : (<MoonIcon mr="5"></MoonIcon>)}
         </Switch>
     );
 }
