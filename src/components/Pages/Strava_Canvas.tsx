@@ -245,6 +245,10 @@ export default function Strava() {
                     {
                         label: '05-2023',
                         y: 22.6
+                    },
+                    {
+                        lebel: '06-2023',
+                        y: 60.2
                     }
                 ]
             },
@@ -265,6 +269,10 @@ export default function Strava() {
                     {
                         label: '05-2023',
                         y: 78.0
+                    },
+                    {
+                        lebel: '06-2023',
+                        y: 32.7
                     }
                 ]
             },
@@ -285,6 +293,10 @@ export default function Strava() {
                     {
                         label: '05-2023',
                         y: 11.7
+                    },
+                    {
+                        label: '06-2023',
+                        y: 10.3
                     }
                 ]
             },
