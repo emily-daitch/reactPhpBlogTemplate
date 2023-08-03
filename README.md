@@ -1,3 +1,5 @@
+** I have decided to remove the create-react-app dependency because the React team no longer recommends using it and because I wanted to learn more about some of the things that are set up for you like webpack and env-cmd. Also, I have switched from using ChakraUI to MUI for personal preference and a smaller bundle size. Additionally, I have moved away from Victory Charts to CanvasJS charts for the smaller bundle size and better default styling. For these reasons, and to separate the frontend and backend code, this project now lives at [this frontend repo](https://github.com/emily-daitch/reactPhpBlogTemplate2) and [this backend repo](https://github.com/emily-daitch/reactPhpBlogTemplateBackend) . Soon I will be updating the readme with info about setting up the project and hosting your own blog/portfolio using this as a template. Thank you **
+
 Hello. This is a blog website template built with a React frontend and PHP backend with a SQL database.<br>
 The original inspiration is from this [YouTube tuorial](https://www.youtube.com/watch?v=RQYpSfXUgn4) by Zarx Biz<br/><br/>
 See my implementation: https://emilydaitch.click/<br/>
